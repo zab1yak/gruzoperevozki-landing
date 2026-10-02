@@ -49,3 +49,7 @@ export function plate(content: string, accent = false): string {
 export function photo(caption: string, className = ''): string {
   return `<figure class="photo ${className}" role="img" aria-label="${caption}"><figcaption class="photo__caption">${caption}</figcaption></figure>`;
 }
+
+export function sectionHead(eyebrow: string, title: string, id: string): string {
+  return `<div class="section__head"><p class="label">${eyebrow}</p><h2 id="${id}">${title}</h2></div>`;
+}

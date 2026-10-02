@@ -3,6 +3,7 @@ import '@fontsource-variable/jetbrains-mono/wght.css';
 import './style.css';
 import { renderHeader, initHeader } from './components/header';
 import { renderHero } from './components/hero';
+import { renderStats } from './components/stats';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -10,6 +11,7 @@ if (app) {
     ${renderHeader()}
     <main>
       ${renderHero()}
+      ${renderStats()}
     </main>`;
   initHeader();
 }

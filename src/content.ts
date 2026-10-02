@@ -257,3 +257,14 @@ export const footer = {
   copyright: `© 2024 ${company.name}`,
   legal: 'Сайт демонстрационный, данные примерные.',
 };
+
+/** Подписи над заголовками секций. */
+export const eyebrows = {
+  services: '01 / Услуги',
+  fleet: '02 / Автопарк',
+  process: '03 / Процесс',
+  quote: '04 / Заявка',
+  reviews: '05 / Отзывы',
+  faq: '06 / Вопросы',
+  contacts: '07 / Контакты',
+};
