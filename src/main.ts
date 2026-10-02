@@ -6,6 +6,7 @@ import { renderHero } from './components/hero';
 import { renderStats } from './components/stats';
 import { renderServices } from './components/services';
 import { renderFleet } from './components/fleet';
+import { renderProcess } from './components/process';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -16,6 +17,7 @@ if (app) {
       ${renderStats()}
       ${renderServices()}
       ${renderFleet()}
+      ${renderProcess()}
     </main>`;
   initHeader();
 }
