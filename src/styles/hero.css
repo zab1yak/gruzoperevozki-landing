@@ -1,0 +1,105 @@
+.hero {
+  position: relative;
+  display: grid;
+  min-height: max(100svh, 980px);
+  padding-top: 72px;
+  overflow: hidden;
+}
+
+/* Полноэкранный кадр. Затемняющей плашки под текстом нет: объект стоит справа, слева воздух */
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  background:
+    radial-gradient(60% 70% at 72% 55%, rgb(255 138 31 / 0.16), transparent 70%),
+    linear-gradient(180deg, #121214 0%, var(--color-bg) 100%);
+}
+
+.hero__truck {
+  width: min(100%, 560px);
+  margin-bottom: 200px;
+  padding-inline: var(--gutter);
+}
+
+.hero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  gap: var(--gap-hero);
+  padding-block: var(--space-6);
+}
+
+.hero__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  min-width: 0;
+}
+
+.hero__main {
+  display: grid;
+  gap: var(--space-6);
+  justify-items: start;
+}
+
+.hero__main h1 {
+  margin-left: -0.04em;
+  padding-bottom: 0.08em;
+}
+
+.hero__sub {
+  max-width: 34ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.hero__corner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.hero__caption {
+  max-width: 36ch;
+  font-size: 0.625rem;
+}
+
+@media (min-width: 769px) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .hero__photo {
+    place-items: center end;
+  }
+
+  .hero__truck {
+    width: min(46vw, 920px);
+    margin: 0 var(--gutter) 40px 0;
+    padding: 0;
+  }
+
+  .hero__col {
+    justify-content: space-between;
+    max-width: 45vw;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hero__truck {
+    width: min(54vw, 920px);
+  }
+
+  .hero__col {
+    max-width: 39vw;
+  }
+}
