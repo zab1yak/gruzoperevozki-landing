@@ -250,7 +250,7 @@ export const faq = {
 
 export const contacts = {
   title: 'Контакты',
-  mapCaption: 'Карта, офис и склад на ул. Промышленной, вход со стороны шлагбаума.',
+  mapCaption: 'Офис и склад на ул. Промышленной, вход со стороны шлагбаума.',
   labels: { phone: 'Телефон', address: 'Адрес', hours: 'Часы работы', email: 'Почта' },
 };
 

@@ -9,6 +9,7 @@ import { renderFleet } from './components/fleet';
 import { renderProcess } from './components/process';
 import { renderQuoteForm, initQuoteForm } from './components/quoteForm';
 import { renderReviews, renderFaq, initFaq } from './components/reviews';
+import { renderContacts, renderFooter } from './components/contacts';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -23,7 +24,9 @@ if (app) {
       ${renderQuoteForm()}
       ${renderReviews()}
       ${renderFaq()}
-    </main>`;
+      ${renderContacts()}
+    </main>
+    ${renderFooter()}`;
   initHeader();
   initQuoteForm();
   initFaq();

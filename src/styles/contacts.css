@@ -1,0 +1,128 @@
+.contacts {
+  align-items: stretch;
+}
+
+.contacts__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.contacts__info .section__head {
+  margin-bottom: 0;
+}
+
+.contacts__list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.contacts__list > div {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
+.contacts__list dd {
+  margin: 0;
+}
+
+.contacts__phone {
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.contacts__phone:hover,
+.contacts__link:hover {
+  color: var(--color-accent);
+}
+
+.contacts__link {
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.contacts__note {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-7);
+}
+
+.hours__row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.contacts__actions {
+  margin-top: var(--space-3);
+}
+
+.contacts__map {
+  height: 100%;
+  min-height: 420px;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 48px 48px,
+    radial-gradient(50% 50% at 55% 45%, rgb(255 138 31 / 0.18), transparent 70%),
+    var(--color-surface-2);
+}
+
+.photo--map .photo__caption::before {
+  content: 'Карта / ';
+}
+
+/* Подвал */
+.footer {
+  padding-block: var(--space-8) var(--space-6);
+  border-top: 1px solid var(--color-line);
+}
+
+.footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+
+.footer__link {
+  color: var(--color-muted);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer__link:hover {
+  color: var(--color-accent);
+}
+
+.footer__phone:hover {
+  color: var(--color-accent);
+}
+
+.footer__bottom {
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-line);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .contacts__map {
+    min-height: 280px;
+  }
+
+  .footer__top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
