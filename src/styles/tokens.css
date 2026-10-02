@@ -1,0 +1,85 @@
+:root {
+  /* Цвета: тёмная тема, один тёплый акцент */
+  --color-bg: #0b0b0c;
+  --color-surface: #141416;
+  --color-surface-2: #1c1c1f;
+  --color-line: rgb(255 255 255 / 0.1);
+  --color-text: #f2eee8;
+  --color-muted: #a8a39b;
+  --color-accent: #ff8a1f;
+  --color-accent-hover: #ffa04a;
+  --color-on-accent: #0b0b0c;
+  --color-focus: #ffd2a1;
+
+  /* Гарнитуры: заголовки и цифры / текст */
+  --font-display: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  --font-text: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Кегли */
+  --fs-h1: clamp(3rem, 11.5vw, 11rem); /* 48px mobile, 160-176px desktop */
+  --fs-h2: clamp(2rem, 4.4vw, 4rem);
+  --fs-h3: clamp(1.25rem, 1.8vw, 1.625rem);
+  --fs-body: clamp(0.9375rem, 0.3vw + 0.85rem, 1rem); /* 15-16px */
+  --fs-lead: clamp(1rem, 0.5vw + 0.9rem, 1.1875rem);
+  --fs-stat: clamp(1.75rem, 2.2vw + 0.9rem, 2.5rem); /* 28-40px */
+  --fs-label: 0.6875rem; /* 11px */
+  --ls-label: 0.15em;
+  --ls-display: -0.04em;
+  --lh-display: 0.92;
+  --lh-body: 1.6;
+
+  /* Отступы */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --section-y: clamp(80px, 10vw, 160px);
+  --gap: 16px;
+  --gap-hero: 30px;
+  --gutter: clamp(16px, 3vw, 40px);
+  --container: 1440px;
+  --container-max: 1600px;
+
+  /* Формы: пилюли и срезанные углы */
+  --radius-pill: 999px;
+  --cut: 24px;
+  --cut-sm: 14px;
+  --clip-cut: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+  --clip-cut-sm: polygon(
+    0 0,
+    calc(100% - var(--cut-sm)) 0,
+    100% var(--cut-sm),
+    100% 100%,
+    var(--cut-sm) 100%,
+    0 calc(100% - var(--cut-sm))
+  );
+
+  /* Анимации */
+  --dur-fast: 0.3s;
+  --dur-base: 0.5s;
+  --dur-slow: 0.6s;
+  --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  /* Слои */
+  --z-header: 50;
+  --z-menu: 60;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01s;
+    --dur-base: 0.01s;
+    --dur-slow: 0.01s;
+  }
+}
