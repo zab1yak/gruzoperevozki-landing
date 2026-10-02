@@ -269,3 +269,7 @@ export const eyebrows = {
   faq: '06 / Вопросы',
   contacts: '07 / Контакты',
 };
+
+export const a11y = {
+  skip: 'К содержимому',
+};
