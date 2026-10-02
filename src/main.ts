@@ -4,6 +4,7 @@ import './style.css';
 import { renderHeader, initHeader } from './components/header';
 import { renderHero } from './components/hero';
 import { renderStats } from './components/stats';
+import { renderServices } from './components/services';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -12,6 +13,7 @@ if (app) {
     <main>
       ${renderHero()}
       ${renderStats()}
+      ${renderServices()}
     </main>`;
   initHeader();
 }
