@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/',
+  // Сайт публикуется на GitHub Pages по адресу /gruzoperevozki-landing/
+  base: '/gruzoperevozki-landing/',
 });

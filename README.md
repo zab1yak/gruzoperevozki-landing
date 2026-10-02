@@ -2,6 +2,8 @@
 
 Лендинг компании грузоперевозок в Перми. Только фронтенд: Vite + TypeScript, без фреймворка и без бэкенда.
 
+**Сайт:** https://zab1yak.github.io/gruzoperevozki-landing/
+
 ## Запуск
 
 Нужен Node.js LTS.
@@ -30,6 +32,14 @@ npm run format   # Prettier
 - подписи к фото-плейсхолдерам.
 
 Данные из задания считаются настоящими: Пермь, опыт 2 года, часы работы (будни 10:00–22:00, выходные 10:00–20:00).
+
+Кроме `src/content.ts`, название, описание и телефон продублированы в [`index.html`](index.html) (title, description, Open Graph, noscript) и в картинке [`public/og-image.png`](public/og-image.png). При замене данных обновите и их.
+
+## Деплой
+
+Сайт публикуется на GitHub Pages через GitHub Actions ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) при каждом push в `main`. Vite собирает с `base: '/gruzoperevozki-landing/'`.
+
+Один раз включите в репозитории: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 ## Шрифты
 
