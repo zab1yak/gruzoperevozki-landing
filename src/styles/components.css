@@ -1,0 +1,238 @@
+/* Контейнер: 1440px, максимум 1600px */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.container--wide {
+  width: min(100% - 2 * var(--gutter), var(--container-max));
+}
+
+/* Секция */
+.section {
+  padding-block: var(--section-y);
+}
+
+.section__head {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  max-width: 40ch;
+}
+
+/* Сетка: gap 16px, в первом экране и блоке цифр 30px */
+.grid {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+}
+
+.grid--gap-hero {
+  gap: var(--gap-hero);
+}
+
+.grid--2 {
+  --cols: 2;
+}
+
+.grid--3 {
+  --cols: 3;
+}
+
+.grid--4 {
+  --cols: 4;
+}
+
+.grid--12 {
+  --cols: 12;
+}
+
+.grid > .span {
+  grid-column: span var(--span, 1);
+}
+
+@media (max-width: 1024px) {
+  .grid--4,
+  .grid--3 {
+    --cols: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    --cols: 1;
+  }
+
+  .grid--12 {
+    --cols: 4;
+  }
+
+  .grid > .span {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Кнопка-пилюля */
+.btn {
+  --btn-bg: var(--color-accent);
+  --btn-fg: var(--color-on-accent);
+  --btn-line: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: 0 var(--space-6);
+  border: 1px solid var(--btn-line);
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.btn:hover {
+  --btn-bg: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-text);
+  --btn-line: rgb(255 255 255 / 0.22);
+}
+
+.btn--ghost:hover {
+  --btn-bg: transparent;
+  --btn-line: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  font-size: 0.75rem;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Тег-пилюля */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-muted);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tag--accent {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Срезанные углы: рамка рисуется подложкой, потому что clip-path обрезает border */
+.card,
+.plate {
+  --shape-bg: var(--color-surface);
+  --shape-line: var(--color-line);
+  position: relative;
+  isolation: isolate;
+  background: var(--shape-line);
+  clip-path: var(--clip-cut);
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.card::before,
+.plate::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--shape-bg);
+  clip-path: var(--clip-cut);
+}
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.card--link:hover {
+  --shape-line: var(--color-accent);
+}
+
+.plate {
+  --cut: var(--cut-sm);
+  clip-path: var(--clip-cut-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+}
+
+.plate::before {
+  clip-path: var(--clip-cut-sm);
+}
+
+.plate--accent {
+  --shape-bg: var(--color-accent);
+  --shape-line: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Плейсхолдер фото с подписью, что должно быть в кадре */
+.photo {
+  position: relative;
+  display: grid;
+  place-items: end start;
+  min-height: 200px;
+  padding: var(--space-5);
+  background:
+    linear-gradient(135deg, rgb(255 138 31 / 0.1), transparent 60%), var(--color-surface-2);
+  clip-path: var(--clip-cut);
+  color: var(--color-muted);
+}
+
+.photo__caption {
+  max-width: 44ch;
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.photo__caption::before {
+  content: 'Фото / ';
+  color: var(--color-accent);
+}
