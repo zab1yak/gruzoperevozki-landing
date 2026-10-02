@@ -1,0 +1,60 @@
+.fleet__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+  align-items: end;
+  gap: var(--gap-hero);
+  margin-bottom: var(--space-8);
+}
+
+.fleet__head .section__head {
+  margin-bottom: 0;
+}
+
+.fleet__note {
+  max-width: 44ch;
+  font-size: var(--fs-body);
+}
+
+.fleet__card {
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  grid-template-rows: auto auto auto 1fr auto;
+}
+
+.fleet__card > :not(.photo) {
+  margin-inline: var(--space-3);
+}
+
+.fleet__photo {
+  min-height: 180px;
+}
+
+.fleet__specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-line);
+}
+
+.fleet__specs > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2);
+}
+
+.fleet__specs dd {
+  margin: 0;
+}
+
+.fleet__body {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .fleet__head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
+  }
+}
