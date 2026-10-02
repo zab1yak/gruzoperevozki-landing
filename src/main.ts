@@ -7,6 +7,7 @@ import { renderStats } from './components/stats';
 import { renderServices } from './components/services';
 import { renderFleet } from './components/fleet';
 import { renderProcess } from './components/process';
+import { renderQuoteForm, initQuoteForm } from './components/quoteForm';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -18,6 +19,8 @@ if (app) {
       ${renderServices()}
       ${renderFleet()}
       ${renderProcess()}
+      ${renderQuoteForm()}
     </main>`;
   initHeader();
+  initQuoteForm();
 }

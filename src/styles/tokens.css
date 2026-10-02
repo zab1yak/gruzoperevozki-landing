@@ -10,6 +10,7 @@
   --color-accent-hover: #ffa04a;
   --color-on-accent: #0b0b0c;
   --color-focus: #ffd2a1;
+  --color-error: #ff8a7a;
 
   /* Гарнитуры: заголовки и цифры / текст */
   --font-display: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
