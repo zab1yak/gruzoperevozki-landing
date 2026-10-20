@@ -9,9 +9,11 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "shots": "npm run build && node --experimental-strip-types --no-warnings scripts/screenshots.ts"
+    "shots": "npm run build && node --experimental-strip-types --no-warnings scripts/screenshots.ts",
+    "a11y": "npm run build && node --experimental-strip-types --no-warnings scripts/a11y.ts"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.5",
     "eslint": "^10.11.0",
