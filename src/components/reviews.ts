@@ -3,7 +3,7 @@ import { card, sectionHead } from './ui';
 
 function stars(count: number): string {
   const on = '★'.repeat(count);
-  const off = '★'.repeat(5 - count);
+  const off = '☆'.repeat(5 - count);
   return `<span class="stars" role="img" aria-label="Оценка ${count} из 5"><span class="stars__on">${on}</span><span class="stars__off">${off}</span></span>`;
 }
 
@@ -75,7 +75,7 @@ export function renderFaq(): string {
     )
     .join('');
   return `
-    <section class="section" id="faq" aria-labelledby="faq-title">
+    <section class="section section--light" id="faq" aria-labelledby="faq-title">
       <div class="container grid grid--12 faq">
         <div class="span" style="--span: 5">
           ${sectionHead(eyebrows.faq, faq.title, 'faq-title')}

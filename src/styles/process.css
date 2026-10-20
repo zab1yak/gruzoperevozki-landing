@@ -19,7 +19,7 @@
 }
 
 .step__num {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .step__text {

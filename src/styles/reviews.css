@@ -19,7 +19,7 @@
 
 .rating__value {
   font-size: clamp(3rem, 6vw, 5rem);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .rating__meta {
@@ -38,11 +38,12 @@
 }
 
 .stars__on {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
+/* Пустая звезда отличается формой (☆) и светлотой, а не только цветом */
 .stars__off {
-  color: rgb(255 255 255 / 0.2);
+  color: var(--color-control-line);
 }
 
 /* Аватары: пилюли-кружки с инициалами, вместо фото */
@@ -53,12 +54,12 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-pill);
-  background: var(--color-surface-2);
+  background: var(--color-bg);
   border: 1px solid var(--color-line);
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .avatar--stack {
@@ -74,7 +75,7 @@
 }
 
 .avatar--1 {
-  color: var(--color-text);
+  color: var(--color-heading);
 }
 
 .avatar--2 {
@@ -94,6 +95,7 @@
 }
 
 .review__name {
+  color: var(--color-heading);
   font-family: var(--font-display);
   font-size: 1.125rem;
   font-weight: 500;
@@ -143,6 +145,7 @@
 }
 
 .faq__btn {
+  color: var(--color-heading);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -159,7 +162,7 @@
 }
 
 .faq__btn:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .faq__icon {
@@ -167,7 +170,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--color-line);
+  border: 1px solid var(--color-control-line);
   border-radius: var(--radius-pill);
 }
 

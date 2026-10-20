@@ -17,6 +17,7 @@ h4 {
   letter-spacing: var(--ls-display);
   line-height: var(--lh-display);
   text-wrap: balance;
+  color: var(--color-heading);
 }
 
 h1 {
@@ -40,7 +41,22 @@ p {
 
 .lead {
   font-size: var(--fs-lead);
-  color: var(--color-muted);
+  color: var(--color-text);
+}
+
+/* Светлая секция для ритма: те же токены, другие значения */
+.section--light {
+  --color-bg: var(--whisper);
+  --color-surface: var(--silver);
+  --color-line: var(--mist);
+  --color-control-line: var(--graphite);
+  --color-text: var(--charcoal);
+  --color-heading: var(--charcoal);
+  --color-muted: var(--asphalt);
+  --color-accent-text: var(--charcoal);
+  --color-focus: var(--charcoal);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 /* Подпись капсом: 10-11px, letter-spacing 0.15em */

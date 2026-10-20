@@ -34,7 +34,7 @@
 
 .contacts__phone:hover,
 .contacts__link:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .contacts__link {
@@ -64,11 +64,7 @@
 .contacts__map {
   height: 100%;
   min-height: 420px;
-  background:
-    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 48px 48px,
-    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 48px 48px,
-    radial-gradient(50% 50% at 55% 45%, rgb(255 138 31 / 0.18), transparent 70%),
-    var(--color-surface-2);
+  background: var(--color-surface);
 }
 
 .photo--map .photo__caption::before {
@@ -101,11 +97,11 @@
 }
 
 .footer__link:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .footer__phone:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .footer__bottom {

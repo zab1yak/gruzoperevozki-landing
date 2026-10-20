@@ -31,7 +31,7 @@
   width: 100%;
   min-height: 52px;
   padding: 0 var(--space-5);
-  border: 1px solid rgb(255 255 255 / 0.18);
+  border: 1px solid var(--color-control-line);
   border-radius: var(--radius-pill);
   background: var(--color-bg);
   color: var(--color-text);
@@ -39,12 +39,14 @@
   transition: border-color var(--dur-fast) var(--ease);
 }
 
+/* Поле тёмное и внутри карточки, поэтому плейсхолдер mist (5.9:1), а не muted карточки */
 .input::placeholder {
-  color: #8f8b84;
+  color: var(--mist);
+  opacity: 1;
 }
 
 .input:hover {
-  border-color: rgb(255 255 255 / 0.36);
+  border-color: var(--color-heading);
 }
 
 .input:focus-visible {
@@ -90,7 +92,7 @@
   font-size: var(--fs-h2);
   letter-spacing: var(--ls-display);
   line-height: 1;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 @media (max-width: 768px) {

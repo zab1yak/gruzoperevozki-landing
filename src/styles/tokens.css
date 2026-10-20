@@ -1,16 +1,33 @@
 :root {
-  /* Цвета: тёмная тема, один тёплый акцент */
-  --color-bg: #0b0b0c;
-  --color-surface: #141416;
-  --color-surface-2: #1c1c1f;
-  --color-line: rgb(255 255 255 / 0.1);
-  --color-text: #f2eee8;
-  --color-muted: #a8a39b;
-  --color-accent: #ff8a1f;
-  --color-accent-hover: #ffa04a;
-  --color-on-accent: #0b0b0c;
-  --color-focus: #ffd2a1;
-  --color-error: #ff8a7a;
+  /*
+   * Палитра. Других цветов в проекте нет: в стилях только семантические токены ниже.
+   * Контраст по WCAG (текст / фон):
+   *   silver на charcoal 10.4, silver на asphalt 7.6, mist на charcoal 5.9,
+   *   lemon с charcoal 8.5, lemon на asphalt 6.2, charcoal на whisper 12.2, asphalt на whisper 8.9.
+   *   mist на asphalt 4.3 не проходит, поэтому в карточках вторичный текст silver.
+   *   graphite на charcoal 2.0: только декоративные разделители, рамки контролов mist (5.9).
+   */
+  --charcoal: #2e2e2e;
+  --asphalt: #434343;
+  --graphite: #5a5a5a;
+  --mist: #aaaaaa;
+  --silver: #e1e1e1;
+  --whisper: #f4f2ee;
+  --lemon: #ffc342;
+
+  /* Семантика для тёмных секций */
+  --color-bg: var(--charcoal);
+  --color-surface: var(--asphalt);
+  --color-line: var(--graphite);
+  --color-control-line: var(--mist);
+  --color-text: var(--silver);
+  --color-heading: var(--whisper);
+  --color-muted: var(--mist);
+  --color-accent: var(--lemon);
+  --color-accent-text: var(--lemon);
+  --color-on-accent: var(--charcoal);
+  --color-focus: var(--lemon);
+  --color-error: var(--lemon);
 
   /* Гарнитуры: заголовки и цифры / текст */
   --font-display: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;

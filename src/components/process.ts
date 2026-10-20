@@ -13,7 +13,7 @@ export function renderProcess(): string {
     )
     .join('');
   return `
-    <section class="section" id="process" aria-labelledby="process-title">
+    <section class="section section--light" id="process" aria-labelledby="process-title">
       <div class="container">
         ${sectionHead(eyebrows.process, process.title, 'process-title')}
         <ol class="steps">${steps}</ol>

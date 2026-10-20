@@ -27,6 +27,8 @@ type Row = {
   needed: number;
   pass: boolean | null;
   note: string;
+  /** Метка элемента, у которого фон нужно замерить по пикселям (под ним фото). */
+  probe?: string;
 };
 
 type AxeRow = { id: string; impact: string; help: string; targets: string[] };
@@ -153,13 +155,21 @@ function collect(): Row[] {
       const fontSize = parseFloat(cs.fontSize);
       const weight = Number(cs.fontWeight);
       const large = fontSize >= 24 || (fontSize >= 18.66 && weight >= 700);
-      const needed = large ? 3 : 4.5;
+      // Символы внутри role="img" (звёзды рейтинга) — графика, для неё порог 3:1
+      const graphic = Boolean(el.closest('[role="img"]'));
+      const needed = large || graphic ? 3 : 4.5;
       const { bg, note } = backdrop(el, x, y);
       const fgRaw = parse(cs.color) ?? [0, 0, 0, 1];
       const fg = over(fgRaw, bg);
       const r = ratio(fg, bg);
+      let probe: string | undefined;
+      if (note) {
+        probe = `p${rows.length}`;
+        el.setAttribute('data-a11y-probe', probe);
+      }
       push({
         kind: 'text',
+        probe,
         selector: describe(el),
         sample: text.slice(0, 40),
         fg: hex(fg),
@@ -209,8 +219,83 @@ function collect(): Row[] {
   return rows;
 }
 
+const luminance = (hexColor: string): number => {
+  const ch = (i: number) => {
+    const s = parseInt(hexColor.slice(i, i + 2), 16) / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * ch(1) + 0.7152 * ch(3) + 0.0722 * ch(5);
+};
+
+const contrast = (a: string, b: string): number => {
+  const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return Math.round(((l1 + 0.05) / (l2 + 0.05)) * 100) / 100;
+};
+
+/**
+ * Фон под текстом на фото: прячем текст, снимаем его область и берём худший пиксель.
+ * Для светлого текста худший — самый светлый (98-й перцентиль, чтобы не ловить шум JPEG),
+ * для тёмного — самый тёмный.
+ */
+async function measureOverImage(page: Page, row: Row): Promise<void> {
+  const sel = `[data-a11y-probe="${row.probe}"]`;
+  const box = await page.evaluate((s) => {
+    const el = document.querySelector<HTMLElement>(s);
+    if (!el) return null;
+    el.scrollIntoView({ block: 'center' });
+    el.style.setProperty('color', 'transparent', 'important');
+    // Прямоугольник самих букв, без рамки и внутренних отступов элемента
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const r = range.getBoundingClientRect();
+    return { x: r.left, y: r.top, width: r.width, height: r.height };
+  }, sel);
+  if (!box) return;
+  const png = await page.screenshot({ clip: box });
+  await page.evaluate(
+    (s) => document.querySelector<HTMLElement>(s)?.style.removeProperty('color'),
+    sel,
+  );
+  const lightText = luminance(row.fg) > 0.18;
+  const worst = await page.evaluate(
+    async ({ data, light }) => {
+      const img = new Image();
+      img.src = `data:image/png;base64,${data}`;
+      await img.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.drawImage(img, 0, 0);
+      const px = ctx.getImageData(0, 0, img.width, img.height).data;
+      const list: [number, number, number, number][] = [];
+      for (let i = 0; i < px.length; i += 4) {
+        const [r, g, b] = [px[i], px[i + 1], px[i + 2]];
+        list.push([0.2126 * r + 0.7152 * g + 0.0722 * b, r, g, b]);
+      }
+      list.sort((a, b) => a[0] - b[0]);
+      const pick = list[Math.floor((light ? 0.98 : 0.02) * (list.length - 1))];
+      return (
+        '#' +
+        pick
+          .slice(1)
+          .map((v) => v.toString(16).padStart(2, '0'))
+          .join('')
+      );
+    },
+    { data: png.toString('base64'), light: lightText },
+  );
+  if (!worst) return;
+  row.bg = worst;
+  row.ratio = contrast(row.fg, worst);
+  row.pass = row.ratio >= row.needed;
+  row.note = `текст на фото, худший пиксель фона ${worst}`;
+}
+
 async function audit(page: Page, width: number): Promise<Report> {
   const rows = await page.evaluate(collect);
+  for (const row of rows.filter((r) => r.probe)) await measureOverImage(page, row);
   const smallText = rows.filter((r) => r.kind === 'text' && r.fontSize < 16);
   const axe = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])

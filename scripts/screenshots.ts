@@ -1,6 +1,7 @@
 /**
  * Скриншоты всей страницы для ревью дизайна.
- * Поднимает `npm run preview`, снимает страницу на четырёх ширинах и кладёт PNG в screenshots/.
+ * Поднимает `npm run preview`, снимает страницу на четырёх ширинах и кладёт PNG в screenshots/:
+ * page-<ширина>.png — вся страница, fold-<ширина>.png — первый экран.
  * Запуск: npm run shots (сборка делается перед запуском).
  */
 import { mkdir } from 'node:fs/promises';
@@ -21,6 +22,8 @@ async function main(): Promise<void> {
         await page.goto(url, { waitUntil: 'networkidle' });
         await page.evaluate(() => document.fonts.ready);
         await scrollThrough(page);
+        // Первый экран отдельно: на полностраничном снимке его не разглядеть
+        await page.screenshot({ path: resolve(OUT_DIR, `fold-${width}.png`) });
         await page.screenshot({ path: resolve(OUT_DIR, `page-${width}.png`), fullPage: true });
         console.log(`✓ ${width}px → screenshots/page-${width}.png`);
         await page.close();
