@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Скриншоты для ревью дизайна (npm run shots)
+screenshots
