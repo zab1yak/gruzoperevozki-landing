@@ -1,5 +1,10 @@
 import { company, contacts, cta, eyebrows, footer, nav } from '../content';
-import { button, photo, sectionHead } from './ui';
+import { button, sectionHead } from './ui';
+
+/** Обычная ссылка на поиск адреса в Яндекс Картах: без виджета, скриптов и iframe. */
+export function yandexMapsUrl(address: string): string {
+  return `https://yandex.ru/maps/?text=${encodeURIComponent(address)}`;
+}
 
 export function renderContacts(): string {
   const hours = company.hours
@@ -19,18 +24,6 @@ export function renderContacts(): string {
           ${sectionHead(eyebrows.contacts, contacts.title, 'contacts-title')}
           <dl class="contacts__list">
             <div>
-              <dt class="label">${contacts.labels.phone}</dt>
-              <dd><a class="contacts__phone stat-value" href="${company.phoneHref}">${company.phone}</a></dd>
-            </div>
-            <div>
-              <dt class="label">${contacts.labels.address}</dt>
-              <dd>${company.address}<br /><span class="contacts__note">${company.addressNote}</span></dd>
-            </div>
-            <div>
-              <dt class="label">${contacts.labels.hours}</dt>
-              <dd><ul class="hours">${hours}</ul></dd>
-            </div>
-            <div>
               <dt class="label">${contacts.labels.email}</dt>
               <dd><a class="contacts__link" href="mailto:${company.email}">${company.email}</a></dd>
             </div>
@@ -40,7 +33,31 @@ export function renderContacts(): string {
           </div>
         </div>
         <div class="span" style="--span: 7">
-          ${photo(contacts.mapCaption, 'contacts__map photo--map')}
+          <address class="card address">
+            <div class="address__item">
+              <p class="label">${contacts.labels.address}</p>
+              <p class="address__street">${company.address}</p>
+              <p class="address__note">${company.addressNote}</p>
+            </div>
+            <div class="address__item">
+              <p class="label">${contacts.labels.hours}</p>
+              <ul class="hours">${hours}</ul>
+            </div>
+            <div class="address__item">
+              <p class="label">${contacts.labels.phone}</p>
+              <a class="address__phone stat-value" href="${company.phoneHref}">${company.phone}</a>
+            </div>
+            <a
+              class="btn btn--ghost address__map"
+              href="${yandexMapsUrl(company.address)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${contacts.mapLink}
+              <span aria-hidden="true">↗</span>
+              <span class="visually-hidden">(${contacts.newTab})</span>
+            </a>
+          </address>
         </div>
       </div>
     </section>`;

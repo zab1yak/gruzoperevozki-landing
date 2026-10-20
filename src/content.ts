@@ -14,7 +14,6 @@ export const company = {
   email: 'hello@gruz59.example',
   address: 'г. Пермь, ул. Промышленная, 105',
   addressNote: 'Склад 3, вход со стороны шлагбаума',
-  coords: { lat: 58.0105, lon: 56.2502 },
   hours: [
     { days: 'Будни', time: '10:00–22:00' },
     { days: 'Выходные', time: '10:00–20:00' },
@@ -256,8 +255,9 @@ export const faq = {
 
 export const contacts = {
   title: 'Контакты',
-  mapCaption: 'Офис и склад на ул. Промышленной, вход со стороны шлагбаума.',
   labels: { phone: 'Телефон', address: 'Адрес', hours: 'Часы работы', email: 'Почта' },
+  mapLink: 'Открыть в Яндекс Картах',
+  newTab: 'откроется в новой вкладке',
 };
 
 export const footer = {
