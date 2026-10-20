@@ -31,7 +31,7 @@ export function renderHero(): string {
             ${tag('Пермь / Пермский край', true)}
           </div>
           <div class="hero__main">
-            <h1 id="hero-title">${hero.title.join('<br />')}</h1>
+            <h1 id="hero-title">${hero.title.join(' <br />')}</h1>
             <p class="lead hero__sub">${hero.subtitle}</p>
             <div class="hero__actions">
               ${button({ label: cta.quote, href: '#quote' })}
@@ -41,7 +41,7 @@ export function renderHero(): string {
         </div>
 
         <div class="hero__corner">
-          ${plate(`${company.yearsOnMarket} года на рынке`)}
+          ${plate(company.hoursCompact)}
         </div>
       </div>
     </section>`;

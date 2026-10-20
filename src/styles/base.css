@@ -54,6 +54,7 @@ p {
   --color-heading: var(--charcoal);
   --color-muted: var(--asphalt);
   --color-accent-text: var(--charcoal);
+  --color-accent-line: var(--charcoal);
   --color-focus: var(--charcoal);
   background: var(--color-bg);
   color: var(--color-text);

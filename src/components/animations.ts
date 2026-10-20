@@ -15,8 +15,6 @@ const TARGETS = [
   '.rating',
   '.contacts__list > div',
   '.contacts__actions',
-  '.footer__top',
-  '.footer__bottom',
 ].join(',');
 
 const HERO_TARGETS = '.hero__top, .hero__main > *, .hero__corner';
@@ -61,4 +59,12 @@ export function initAnimations(): void {
     { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
   );
   blocks.forEach((el) => observer.observe(el));
+
+  // Внизу страницы показываем всё, что осталось: последние блоки могут не попасть в зону наблюдателя
+  const revealRest = () => {
+    if (window.innerHeight + window.scrollY < document.documentElement.scrollHeight - 2) return;
+    blocks.forEach((el) => el.classList.add('is-in'));
+    window.removeEventListener('scroll', revealRest);
+  };
+  window.addEventListener('scroll', revealRest, { passive: true });
 }

@@ -62,6 +62,13 @@
   gap: var(--space-4);
 }
 
+/* На узком экране кнопки одной ширины, друг под другом */
+@media (max-width: 480px) {
+  .hero__actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
 .hero__corner {
   display: flex;
   justify-content: flex-start;

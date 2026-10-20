@@ -46,8 +46,14 @@ export function plate(content: string, accent = false): string {
   return `<div class="plate${accent ? ' plate--accent' : ''}">${content}</div>`;
 }
 
-export function photo(caption: string, className = ''): string {
-  return `<figure class="photo ${className}" role="img" aria-label="${caption}"><figcaption class="photo__caption">${caption}</figcaption></figure>`;
+type Photo = { id: string; alt: string };
+
+/** Фото с Unsplash: srcset под ширину блока, ленивая загрузка. */
+export function photo(image: Photo, className = '', sizes = '100vw'): string {
+  const url = (w: number) =>
+    `https://images.unsplash.com/${image.id}?auto=format&fit=crop&w=${w}&q=70`;
+  const srcset = [400, 640, 960, 1280].map((w) => `${url(w)} ${w}w`).join(', ');
+  return `<div class="photo ${className}"><img class="photo__img" src="${url(960)}" srcset="${srcset}" sizes="${sizes}" alt="${image.alt}" width="960" height="640" loading="lazy" decoding="async" /></div>`;
 }
 
 export function sectionHead(eyebrow: string, title: string, id: string): string {

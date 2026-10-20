@@ -4,7 +4,8 @@
    * Контраст по WCAG (текст / фон):
    *   silver на charcoal 10.4, silver на asphalt 7.6, mist на charcoal 5.9,
    *   lemon с charcoal 8.5, lemon на asphalt 6.2, charcoal на whisper 12.2, asphalt на whisper 8.9.
-   *   mist на asphalt 4.3 не проходит, поэтому в карточках вторичный текст silver.
+   *   mist на asphalt 4.3: мало для текста (в карточках вторичный текст silver),
+   *   достаточно для рамок и иконок (3:1).
    *   graphite на charcoal 2.0: только декоративные разделители, рамки контролов mist (5.9).
    */
   --charcoal: #2e2e2e;
@@ -25,6 +26,8 @@
   --color-muted: var(--mist);
   --color-accent: var(--lemon);
   --color-accent-text: var(--lemon);
+  --color-accent-line: var(--lemon);
+  --color-placeholder: var(--mist);
   --color-on-accent: var(--charcoal);
   --color-focus: var(--lemon);
   --color-error: var(--lemon);

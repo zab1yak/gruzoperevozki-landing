@@ -42,7 +42,7 @@
 
 /* Поле тёмное и внутри карточки, поэтому плейсхолдер mist (5.9:1), а не muted карточки */
 .input::placeholder {
-  color: var(--mist);
+  color: var(--color-placeholder);
   opacity: 1;
 }
 

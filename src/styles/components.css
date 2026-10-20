@@ -213,27 +213,17 @@
   color: var(--color-on-accent);
 }
 
-/* Плейсхолдер фото с подписью, что должно быть в кадре */
+/* Фото со срезанным углом, как у карточек */
 .photo {
   position: relative;
-  display: grid;
-  place-items: end start;
-  min-height: 200px;
-  padding: var(--space-5);
-  background: var(--color-surface);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--color-line);
   clip-path: var(--clip-cut);
-  color: var(--color-text);
 }
 
-.photo__caption {
-  max-width: 44ch;
-  font-size: var(--fs-label);
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.photo__caption::before {
-  content: 'Фото / ';
-  color: var(--color-accent-text);
+.photo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

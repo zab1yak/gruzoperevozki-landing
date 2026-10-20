@@ -18,7 +18,7 @@ export function renderServices(): string {
       <div class="container grid grid--12 services">
         <div class="span services__side" style="--span: 4">
           ${sectionHead(eyebrows.services, services.title, 'services-title')}
-          ${photo(services.imageCaption, 'services__photo')}
+          ${photo(services.image, 'services__photo', '(max-width: 1024px) 100vw, 30vw')}
         </div>
         <div class="span grid grid--2 services__grid" style="--span: 8">${cards}</div>
       </div>

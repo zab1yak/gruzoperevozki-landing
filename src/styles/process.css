@@ -15,7 +15,7 @@
 }
 
 .step:hover {
-  border-top-color: var(--color-accent);
+  border-top-color: var(--color-accent-line);
 }
 
 .step__num {

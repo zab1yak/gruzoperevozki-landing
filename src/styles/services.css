@@ -13,7 +13,7 @@
 }
 
 .services__photo {
-  min-height: 280px;
+  aspect-ratio: 4 / 5;
 }
 
 .service {

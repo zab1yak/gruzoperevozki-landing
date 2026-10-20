@@ -25,7 +25,7 @@
 }
 
 .fleet__photo {
-  min-height: 180px;
+  clip-path: var(--clip-cut-sm);
 }
 
 .fleet__specs {
@@ -39,17 +39,30 @@
 
 .fleet__specs > div {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  justify-content: space-between;
   gap: var(--space-2);
 }
 
 .fleet__specs dd {
   margin: 0;
+  white-space: nowrap;
+}
+
+.fleet__specs .stat-value {
+  font-size: clamp(1.75rem, 1vw + 1.1rem, 2.25rem);
 }
 
 .fleet__body {
   color: var(--color-muted);
   font-size: var(--fs-card);
+}
+
+/* На планшете две колонки, иначе каждая карточка с фото 3:2 занимает почти экран */
+@media (min-width: 600px) and (max-width: 768px) {
+  .fleet__grid {
+    --cols: 2;
+  }
 }
 
 @media (max-width: 768px) {

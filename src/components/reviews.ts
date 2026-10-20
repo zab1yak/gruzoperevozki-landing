@@ -87,10 +87,14 @@ export function renderFaq(): string {
 
 export function initFaq(): void {
   document.querySelectorAll<HTMLButtonElement>('.faq__btn').forEach((btn) => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
+    // Свёрнутый ответ скрыт только высотой, поэтому выключаем его и для скринридера
+    if (panel) panel.inert = true;
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
       btn.closest('.faq__item')?.classList.toggle('is-open', !open);
+      if (panel) panel.inert = open;
     });
   });
 }

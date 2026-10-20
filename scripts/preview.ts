@@ -58,6 +58,20 @@ export async function scrollThrough(page: Page): Promise<void> {
       await new Promise((r) => setTimeout(r, 120));
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
+    // Фото грузятся лениво: ждём видимые картинки (скрытые через display: none не грузятся), не дольше 15 с
+    const pending = Array.from(document.images).filter(
+      (img) => !img.complete && img.getClientRects().length > 0,
+    );
+    const loaded = Promise.all(
+      pending.map(
+        (img) =>
+          new Promise((done) => {
+            img.addEventListener('load', done, { once: true });
+            img.addEventListener('error', done, { once: true });
+          }),
+      ),
+    );
+    await Promise.race([loaded, new Promise((r) => setTimeout(r, 15_000))]);
   });
   await page.waitForTimeout(800);
 }
