@@ -131,6 +131,8 @@ function collect(): Row[] {
 
   const rows: Row[] = [];
   const seen = new Set<string>();
+  // Отдельный счётчик: push отбрасывает дубли, поэтому rows.length для меток не годится
+  let probeCount = 0;
   const push = (row: Row) => {
     const key = `${row.kind}|${row.selector}|${row.fg}|${row.bg}|${row.fontSize}`;
     if (seen.has(key)) return;
@@ -164,7 +166,7 @@ function collect(): Row[] {
       const r = ratio(fg, bg);
       let probe: string | undefined;
       if (note) {
-        probe = `p${rows.length}`;
+        probe = `p${probeCount++}`;
         el.setAttribute('data-a11y-probe', probe);
       }
       push({
