@@ -35,6 +35,7 @@
   border-radius: var(--radius-pill);
   background: var(--color-bg);
   color: var(--color-text);
+  font-size: var(--fs-ui);
   color-scheme: dark;
   transition: border-color var(--dur-fast) var(--ease);
 }
@@ -60,8 +61,8 @@
 
 .field__error {
   padding-left: var(--space-5);
-  font-size: 0.75rem;
-  line-height: 1.2;
+  font-size: var(--fs-small);
+  line-height: 1.4;
   color: var(--color-error);
 }
 
@@ -72,7 +73,7 @@
 .quote__consent {
   text-transform: none;
   letter-spacing: 0.02em;
-  font-size: 0.75rem;
+  font-size: var(--fs-small);
 }
 
 .quote__done {

@@ -84,7 +84,7 @@ export function initHeader(): void {
       burger.focus();
     }
   });
-  window.matchMedia('(min-width: 1121px)').addEventListener('change', (event) => {
+  window.matchMedia('(min-width: 1280px)').addEventListener('change', (event) => {
     if (event.matches && header.classList.contains('is-open')) setOpen(false);
   });
 

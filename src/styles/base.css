@@ -59,7 +59,7 @@ p {
   color: var(--color-text);
 }
 
-/* Подпись капсом: 10-11px, letter-spacing 0.15em */
+/* Подпись капсом: 12-13px, letter-spacing 0.15em */
 .label {
   font-size: var(--fs-label);
   letter-spacing: var(--ls-label);
@@ -68,7 +68,7 @@ p {
   line-height: 1.4;
 }
 
-/* Цифра как герой: 28-40px */
+/* Цифра как герой: 32-44px */
 .stat-value {
   font-family: var(--font-display);
   font-size: var(--fs-stat);

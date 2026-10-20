@@ -90,7 +90,7 @@
   background: var(--btn-bg);
   color: var(--btn-fg);
   font-family: var(--font-text);
-  font-size: 0.8125rem;
+  font-size: var(--fs-ui);
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1;
@@ -122,9 +122,9 @@
 }
 
 .btn--sm {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 var(--space-5);
-  font-size: 0.75rem;
+  font-size: var(--fs-ui);
 }
 
 .btn--block {

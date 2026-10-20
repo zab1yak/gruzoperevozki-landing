@@ -23,6 +23,7 @@
 
 .service__text {
   color: var(--color-muted);
+  font-size: var(--fs-card);
 }
 
 .service .plate {

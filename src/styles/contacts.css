@@ -43,7 +43,7 @@
 
 .contacts__note {
   color: var(--color-muted);
-  font-size: 0.875rem;
+  font-size: var(--fs-card);
 }
 
 .hours {
