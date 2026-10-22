@@ -5,8 +5,6 @@
 const TARGETS = [
   '.section__head',
   '.fleet__note',
-  '.quote__side .lead',
-  '.stat',
   '.card',
   '.photo',
   '.step',
@@ -17,7 +15,7 @@ const TARGETS = [
   '.contacts__actions',
 ].join(',');
 
-const HERO_TARGETS = '.hero__top, .hero__main > *, .hero__corner';
+const HERO_TARGETS = '.hero__main > *, .quote-card';
 const STAGGER = 0.08;
 const STAGGER_MAX = 5;
 
@@ -37,7 +35,10 @@ export function initAnimations(): void {
   if (reduced || !('IntersectionObserver' in window)) return;
 
   const hero = Array.from(document.querySelectorAll<HTMLElement>(HERO_TARGETS));
-  const blocks = Array.from(document.querySelectorAll<HTMLElement>(TARGETS));
+  // Первый экран анимируется отдельно, поэтому его блоки исключаем
+  const blocks = Array.from(document.querySelectorAll<HTMLElement>(TARGETS)).filter(
+    (el) => !el.closest('.hero'),
+  );
   setDelays(hero);
   setDelays(blocks);
 

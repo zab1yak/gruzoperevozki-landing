@@ -1,9 +1,9 @@
-import { cta, eyebrows, quoteForm } from '../content';
-import { button, card, sectionHead } from './ui';
+import { cta, quoteForm, services } from '../content';
+import { button } from './ui';
 
-type FieldName = 'from' | 'to' | 'weight' | 'volume' | 'date' | 'phone';
+type FieldName = 'from' | 'to' | 'cargo' | 'date' | 'time' | 'phone';
 
-const { fields, errors } = quoteForm;
+const { fields, errors, slots } = quoteForm;
 
 function todayIso(): string {
   const d = new Date();
@@ -11,46 +11,57 @@ function todayIso(): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-function field(name: FieldName, label: string, attrs: string, wide = false): string {
+function isWeekend(iso: string): boolean {
+  const [y, m, d] = iso.split('-').map(Number);
+  const day = new Date(y, m - 1, d).getDay();
+  return day === 0 || day === 6;
+}
+
+function field(name: FieldName, label: string, control: string): string {
   return `
-    <div class="field${wide ? ' field--wide' : ''}">
-      <label class="label field__label" for="quote-${name}">${label}</label>
-      <input class="input" id="quote-${name}" name="${name}" ${attrs} aria-describedby="quote-${name}-error" />
-      <p class="field__error" id="quote-${name}-error" role="alert"></p>
+    <div class="field">
+      <label class="field__label" for="quote-${name}">${label}</label>
+      ${control}
+      <p class="field__error" id="quote-${name}-error"></p>
     </div>`;
 }
 
-export function renderQuoteForm(): string {
-  const formHtml = `
-    <form class="quote__form" novalidate data-quote-form>
-      ${field('from', fields.from.label, `type="text" autocomplete="street-address" placeholder="${fields.from.placeholder}" required`, true)}
-      ${field('to', fields.to.label, `type="text" autocomplete="off" placeholder="${fields.to.placeholder}" required`, true)}
-      ${field('weight', fields.weight.label, `type="text" inputmode="decimal" placeholder="${fields.weight.placeholder}" required`)}
-      ${field('volume', fields.volume.label, `type="text" inputmode="decimal" placeholder="${fields.volume.placeholder}" required`)}
-      ${field('date', fields.date.label, `type="date" min="${todayIso()}" required`)}
-      ${field('phone', fields.phone.label, `type="tel" inputmode="tel" autocomplete="tel" placeholder="${fields.phone.placeholder}" required`)}
-      <div class="field field--wide quote__submit">
-        ${button({ label: cta.send, type: 'submit', block: true })}
-        <p class="label quote__consent">${quoteForm.consent}</p>
-      </div>
-    </form>
-    <div class="quote__done" data-quote-done role="status" hidden>
-      <p class="quote__thanks" tabindex="-1">${quoteForm.success}</p>
-      ${button({ label: quoteForm.again, variant: 'ghost', className: 'js-quote-again' })}
-    </div>`;
+function input(name: FieldName, attrs: string): string {
+  return `<input class="input" id="quote-${name}" name="${name}" ${attrs} aria-describedby="quote-${name}-error" />`;
+}
 
+function select(name: FieldName, placeholder: string, options: string[]): string {
+  const items = options.map((o) => `<option value="${o}">${o}</option>`).join('');
   return `
-    <section class="section" id="quote" aria-labelledby="quote-title">
-      <div class="container grid grid--12 quote">
-        <div class="span quote__side" style="--span: 5">
-          ${sectionHead(eyebrows.quote, quoteForm.title, 'quote-title')}
-          <p class="lead">${quoteForm.lead}</p>
+    <select class="input input--select" id="quote-${name}" name="${name}" required aria-describedby="quote-${name}-error">
+      <option value="" disabled selected>${placeholder}</option>${items}
+    </select>`;
+}
+
+/** Карточка заявки для первого экрана. Отправки на сервер пока нет: только проверка и сообщение. */
+export function renderQuoteCard(): string {
+  const cargo = services.items.map((item) => item.title);
+  return `
+    <div class="card quote-card" id="quote">
+      <h2 class="quote-card__title" id="quote-title">${quoteForm.title}</h2>
+      <p class="quote-card__lead">${quoteForm.lead}</p>
+      <form class="quote__form" novalidate aria-labelledby="quote-title" data-quote-form>
+        ${field('from', fields.from.label, input('from', `type="text" autocomplete="street-address" placeholder="${fields.from.placeholder}" required`))}
+        ${field('to', fields.to.label, input('to', `type="text" autocomplete="off" placeholder="${fields.to.placeholder}" required`))}
+        ${field('cargo', fields.cargo.label, select('cargo', fields.cargo.placeholder, cargo))}
+        ${field('phone', fields.phone.label, input('phone', `type="tel" inputmode="tel" autocomplete="tel" placeholder="${fields.phone.placeholder}" required`))}
+        ${field('date', fields.date.label, input('date', `type="date" min="${todayIso()}" required`))}
+        ${field('time', fields.time.label, select('time', fields.time.placeholder, slots))}
+        <div class="quote__submit">
+          ${button({ label: cta.send, type: 'submit', block: true })}
+          <p class="quote__consent">${quoteForm.consent}</p>
         </div>
-        <div class="span" style="--span: 7">
-          ${card(formHtml, { className: 'quote__card' })}
-        </div>
+      </form>
+      <div class="quote__done" data-quote-done role="status" hidden>
+        <p class="quote__thanks" tabindex="-1">${quoteForm.success}</p>
+        ${button({ label: quoteForm.again, variant: 'ghost', className: 'js-quote-again' })}
       </div>
-    </section>`;
+    </div>`;
 }
 
 function formatPhone(raw: string): string {
@@ -67,24 +78,28 @@ function formatPhone(raw: string): string {
   return out;
 }
 
-function isPositive(value: string): boolean {
-  const n = Number(value.trim().replace(',', '.'));
-  return value.trim() !== '' && Number.isFinite(n) && n > 0;
+/** Окно 20:00–22:00 есть только в будни. */
+function lateSlotOnWeekend(form: HTMLFormElement): boolean {
+  const date = form.querySelector<HTMLInputElement>('#quote-date')?.value ?? '';
+  const time = form.querySelector<HTMLSelectElement>('#quote-time')?.value ?? '';
+  if (!date || !time) return false;
+  return isWeekend(date) && slots.indexOf(time) > slots.indexOf(quoteForm.weekendLastSlot);
 }
 
-function validate(name: FieldName, value: string): string {
+function validate(name: FieldName, value: string, form: HTMLFormElement): string {
   const v = value.trim();
   switch (name) {
     case 'from':
     case 'to':
       return v ? '' : errors.required;
-    case 'weight':
-    case 'volume':
-      if (!v) return errors.required;
-      return isPositive(v) ? '' : errors.number;
+    case 'cargo':
+      return v ? '' : errors.select;
     case 'date':
       if (!v) return errors.required;
       return v >= todayIso() ? '' : errors.date;
+    case 'time':
+      if (!v) return errors.select;
+      return lateSlotOnWeekend(form) ? errors.weekend : '';
     case 'phone':
       if (!v) return errors.required;
       return v.replace(/\D/g, '').length === 11 ? '' : errors.phone;
@@ -96,29 +111,37 @@ export function initQuoteForm(): void {
   const done = document.querySelector<HTMLElement>('[data-quote-done]');
   if (!form || !done) return;
 
-  const inputs = Array.from(form.querySelectorAll<HTMLInputElement>('.input'));
+  const controls = Array.from(
+    form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('.input'),
+  );
+  const time = form.querySelector<HTMLSelectElement>('#quote-time');
 
-  const check = (input: HTMLInputElement): boolean => {
-    const message = validate(input.name as FieldName, input.value);
-    const error = form.querySelector<HTMLElement>(`#${input.id}-error`);
+  const check = (control: HTMLInputElement | HTMLSelectElement): boolean => {
+    const message = validate(control.name as FieldName, control.value, form);
+    const error = form.querySelector<HTMLElement>(`#${control.id}-error`);
     if (error) error.textContent = message;
-    input.setAttribute('aria-invalid', String(Boolean(message)));
+    control.setAttribute('aria-invalid', String(Boolean(message)));
     return !message;
   };
 
-  inputs.forEach((input) => {
-    input.addEventListener('blur', () => {
-      if (input.value || input.getAttribute('aria-invalid') === 'true') check(input);
+  controls.forEach((control) => {
+    control.addEventListener('blur', () => {
+      if (control.value || control.getAttribute('aria-invalid') === 'true') check(control);
     });
-    input.addEventListener('input', () => {
-      if (input.name === 'phone') input.value = formatPhone(input.value);
-      if (input.getAttribute('aria-invalid') === 'true') check(input);
+    control.addEventListener('input', () => {
+      if (control.name === 'phone') control.value = formatPhone(control.value);
+      if (control.getAttribute('aria-invalid') === 'true') check(control);
+    });
+    control.addEventListener('change', () => {
+      if (control instanceof HTMLSelectElement) check(control);
+      // Смена даты может сделать выбранное время недоступным (выходной)
+      if (control.name === 'date' && time?.value) check(time);
     });
   });
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const invalid = inputs.filter((input) => !check(input));
+    const invalid = controls.filter((control) => !check(control));
     if (invalid.length) {
       invalid[0].focus();
       return;
@@ -131,13 +154,13 @@ export function initQuoteForm(): void {
 
   done.querySelector('.js-quote-again')?.addEventListener('click', () => {
     form.reset();
-    inputs.forEach((input) => {
-      input.setAttribute('aria-invalid', 'false');
-      const error = form.querySelector<HTMLElement>(`#${input.id}-error`);
+    controls.forEach((control) => {
+      control.setAttribute('aria-invalid', 'false');
+      const error = form.querySelector<HTMLElement>(`#${control.id}-error`);
       if (error) error.textContent = '';
     });
     done.hidden = true;
     form.hidden = false;
-    inputs[0].focus();
+    controls[0].focus();
   });
 }

@@ -1,48 +1,36 @@
-import { company, cta, hero } from '../content';
-import { button, plate, tag } from './ui';
+import { company, hero, stats } from '../content';
+import { renderQuoteCard } from './quoteForm';
+import { button, tag } from './ui';
 
-const WIDTHS = [640, 960, 1440, 1920, 2560];
-
-function unsplash(width: number): string {
-  return `${hero.image.src}?auto=format&fit=crop&w=${width}&q=70`;
-}
-
+/**
+ * Первый экран: слева кто мы и цифры доверия, справа сразу заявка с датой и временем подачи.
+ * Всё помещается в экран ноутбука 1366×768 и 1536×730 (1920 при масштабе 125%).
+ */
 export function renderHero(): string {
-  const srcset = WIDTHS.map((w) => `${unsplash(w)} ${w}w`).join(', ');
+  const facts = stats
+    .map(
+      (item, index) => `
+        <li class="hero__fact${index === 0 ? ' hero__fact--lead' : ''}">
+          <span class="stat-value">${item.value}</span>
+          <span class="label">${item.label}</span>
+        </li>`,
+    )
+    .join('');
+
   return `
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__photo">
-        <img
-          class="hero__img"
-          src="${unsplash(1920)}"
-          srcset="${srcset}"
-          sizes="100vw"
-          width="1920"
-          height="1280"
-          alt="${hero.image.alt}"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-
       <div class="container hero__inner">
-        <div class="hero__col">
-          <div class="hero__top">
-            ${tag('Пермь / Пермский край', true)}
+        <div class="hero__main">
+          ${tag(hero.badge, true)}
+          <h1 id="hero-title">${hero.title}</h1>
+          <p class="lead hero__sub">${hero.subtitle}</p>
+          <div class="hero__contact">
+            ${button({ label: company.phone, href: company.phoneHref, variant: 'ghost' })}
+            <p class="hero__hours">${company.hoursCompact}</p>
           </div>
-          <div class="hero__main">
-            <h1 id="hero-title">${hero.title.join(' <br />')}</h1>
-            <p class="lead hero__sub">${hero.subtitle}</p>
-            <div class="hero__actions">
-              ${button({ label: cta.quote, href: '#quote' })}
-              ${button({ label: cta.call, href: company.phoneHref, variant: 'ghost' })}
-            </div>
-          </div>
+          <ul class="hero__facts" aria-label="Компания в цифрах">${facts}</ul>
         </div>
-
-        <div class="hero__corner">
-          ${plate(company.hoursCompact)}
-        </div>
+        ${renderQuoteCard()}
       </div>
     </section>`;
 }

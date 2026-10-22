@@ -1,7 +1,8 @@
 /**
  * Скриншоты всей страницы для ревью дизайна.
  * Поднимает `npm run preview`, снимает страницу на четырёх ширинах и кладёт PNG в screenshots/:
- * page-<ширина>.png — вся страница, fold-<ширина>.png — первый экран.
+ * page-<ширина>.png — вся страница, fold-<ширина>.png — первый экран,
+ * fold-<ширина>x<высота>.png — первый экран на ноутбуках.
  * Запуск: npm run shots (сборка делается перед запуском).
  */
 import { mkdir } from 'node:fs/promises';
@@ -10,6 +11,11 @@ import { chromium } from 'playwright';
 import { scrollThrough, withPreview } from './preview.ts';
 
 const WIDTHS = [390, 768, 1440, 1920];
+/** Первый экран на типичных ноутбуках: 1366×768 и 1920 при масштабе 125% (1536×730). */
+const LAPTOPS = [
+  { width: 1366, height: 768 },
+  { width: 1536, height: 730 },
+];
 const OUT_DIR = resolve(import.meta.dirname, '..', 'screenshots');
 
 async function main(): Promise<void> {
@@ -26,6 +32,16 @@ async function main(): Promise<void> {
         await page.screenshot({ path: resolve(OUT_DIR, `fold-${width}.png`) });
         await page.screenshot({ path: resolve(OUT_DIR, `page-${width}.png`), fullPage: true });
         console.log(`✓ ${width}px → screenshots/page-${width}.png`);
+        await page.close();
+      }
+      for (const viewport of LAPTOPS) {
+        const page = await browser.newPage({ viewport });
+        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForTimeout(800);
+        const name = `fold-${viewport.width}x${viewport.height}.png`;
+        await page.screenshot({ path: resolve(OUT_DIR, name) });
+        console.log(`✓ ${viewport.width}×${viewport.height} → screenshots/${name}`);
         await page.close();
       }
     } finally {

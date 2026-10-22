@@ -1,132 +1,91 @@
 /*
- * Первый экран. Фото без градиентов и затемняющих плашек: в кадре почти всё тёмное,
- * фары отражены и сдвинуты вправо, текст стоит на тёмной левой части.
- * На мобильном текст на сплошном фоне, фото отдельным блоком под ним.
+ * Первый экран на сплошном фоне: слева заголовок, телефон и цифры, справа заявка.
+ * Без фото под текстом, поэтому контраст постоянный и ничего не перекрывается.
  */
 .hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
   padding-top: 72px;
-  overflow: hidden;
-}
-
-.hero__photo {
-  order: 2;
-  aspect-ratio: 4 / 3;
-  background: var(--color-bg);
-}
-
-.hero__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 60% 50%;
-  /* Отражение по горизонтали уводит фары вправо, от текста */
-  transform: scaleX(-1);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .hero__inner {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-6);
-  padding-block: var(--space-6) var(--space-7);
-}
-
-.hero__col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  min-width: 0;
+  gap: var(--space-7);
+  padding-block: var(--space-7) var(--space-8);
 }
 
 .hero__main {
   display: grid;
-  gap: var(--space-6);
+  align-content: center;
   justify-items: start;
+  gap: var(--space-5);
 }
 
 .hero__main h1 {
-  margin-left: -0.04em;
-  padding-bottom: 0.08em;
+  max-width: 16ch;
 }
 
 .hero__sub {
-  max-width: 34ch;
+  max-width: 46ch;
 }
 
-.hero__actions {
+.hero__contact {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
 }
 
-/* На узком экране кнопки одной ширины, друг под другом */
-@media (max-width: 480px) {
-  .hero__actions .btn {
-    flex: 1 1 100%;
+.hero__hours {
+  color: var(--color-muted);
+  font-size: var(--fs-small);
+}
+
+.hero__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-6);
+  width: 100%;
+  margin-top: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-line);
+}
+
+.hero__fact {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.hero__fact .stat-value {
+  font-size: clamp(1.5rem, 0.8vw + 1.1rem, 2rem);
+  color: var(--color-heading);
+}
+
+.hero__fact--lead .stat-value {
+  color: var(--color-accent-text);
+}
+
+/* На телефоне форма ниже первого экрана, поэтому звонок становится главной кнопкой */
+@media (max-width: 1023px) {
+  .hero__contact .btn--ghost {
+    --btn-bg: var(--color-accent);
+    --btn-fg: var(--color-on-accent);
+    --btn-line: var(--color-accent);
   }
 }
 
-.hero__corner {
-  display: flex;
-  justify-content: flex-start;
+@media (min-width: 640px) {
+  .hero__facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
-@media (min-width: 769px) {
-  .hero {
-    display: grid;
-    min-height: 100svh;
-  }
-
-  .hero__photo {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: auto;
-    overflow: hidden;
-  }
-
-  /* Кадр шире экрана и прижат влево: фары уходят к правому краю (около 60–90% ширины),
-     левая треть с текстом остаётся на тёмной части */
-  .hero__img {
-    width: 135%;
-    max-width: none;
-    /* Сдвиг вверх прячет под шапку табло с надписью: в отражении она читалась бы задом наперёд */
-    object-position: 50% 80%;
-  }
-
+@media (min-width: 1024px) {
   .hero__inner {
-    grid-template-rows: 1fr auto;
-    gap: var(--gap-hero);
+    grid-template-columns: minmax(0, 1.15fr) minmax(400px, 0.85fr);
+    align-items: center;
+    gap: var(--space-8);
+    min-height: calc(100svh - 72px);
     padding-block: var(--space-6);
-  }
-
-  .hero__col {
-    justify-content: space-between;
-    gap: var(--space-7);
-    max-width: 45vw;
-  }
-
-  .hero__corner {
-    justify-content: flex-end;
-  }
-}
-
-/*
- * На широких экранах кадр сдвигается так, чтобы освещённая дорога (в кадре на высоте ≈50vw)
- * всегда шла за H1 на 45% высоты экрана, а подзаголовок и кнопки стояли на тёмной земле.
- * Высота кадра 135vw × 2/3 = 90vw: при соотношении сторон от 1.5 его хватает на экран,
- * а табло с отражённой надписью уходит под шапку.
- */
-@media (min-width: 769px) and (min-aspect-ratio: 3 / 2) {
-  .hero__img {
-    object-position: 50% calc(45vh - 50vw);
-  }
-}
-
-@media (min-width: 1025px) {
-  .hero__col {
-    max-width: 39vw;
   }
 }

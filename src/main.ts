@@ -2,11 +2,10 @@ import '@fontsource-variable/inter/wght.css';
 import './style.css';
 import { renderHeader, initHeader } from './components/header';
 import { renderHero } from './components/hero';
-import { renderStats } from './components/stats';
 import { renderServices } from './components/services';
 import { renderFleet } from './components/fleet';
 import { renderProcess } from './components/process';
-import { renderQuoteForm, initQuoteForm } from './components/quoteForm';
+import { initQuoteForm } from './components/quoteForm';
 import { renderReviews, renderFaq, initFaq } from './components/reviews';
 import { renderContacts, renderFooter } from './components/contacts';
 import { initAnimations } from './components/animations';
@@ -19,11 +18,9 @@ if (app) {
     ${renderHeader()}
     <main id="main" tabindex="-1">
       ${renderHero()}
-      ${renderStats()}
       ${renderServices()}
       ${renderFleet()}
       ${renderProcess()}
-      ${renderQuoteForm()}
       ${renderReviews()}
       ${renderFaq()}
       ${renderContacts()}

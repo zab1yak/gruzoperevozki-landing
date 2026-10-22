@@ -1,20 +1,22 @@
-.quote {
-  align-items: start;
-  gap: var(--gap-hero) var(--gap);
+/* Карточка заявки на первом экране */
+.quote-card {
+  gap: var(--space-4);
+  padding: var(--space-6);
 }
 
-.quote__side .lead {
-  max-width: 38ch;
+.quote-card__title {
+  font-size: var(--fs-h3);
 }
 
-.quote__card {
-  padding: var(--space-7);
+.quote-card__lead {
+  font-size: var(--fs-small);
 }
 
 .quote__form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-5) var(--gap);
+  gap: var(--space-4) var(--space-4);
+  margin-top: var(--space-2);
 }
 
 .field {
@@ -23,27 +25,40 @@
   gap: var(--space-2);
 }
 
-.field--wide {
-  grid-column: 1 / -1;
+.field__label {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--color-text);
 }
 
+/* Поля прямоугольные со скруглением, как в формах банков и служб доставки */
 .input {
   width: 100%;
-  min-height: 52px;
-  padding: 0 var(--space-5);
+  min-height: 48px;
+  padding: 0 var(--space-4);
   border: 1px solid var(--color-control-line);
-  border-radius: var(--radius-pill);
+  border-radius: 12px;
   background: var(--color-bg);
-  color: var(--color-text);
+  color: var(--color-heading);
+  font-family: var(--font-text);
   font-size: var(--fs-ui);
   color-scheme: dark;
   transition: border-color var(--dur-fast) var(--ease);
+}
+
+.input--select {
+  cursor: pointer;
 }
 
 /* Поле тёмное и внутри карточки, поэтому плейсхолдер mist (5.9:1), а не muted карточки */
 .input::placeholder {
   color: var(--color-placeholder);
   opacity: 1;
+}
+
+/* Невыбранный селект выглядит как плейсхолдер */
+.input--select:invalid {
+  color: var(--color-placeholder);
 }
 
 .input:hover {
@@ -60,20 +75,26 @@
 }
 
 .field__error {
-  padding-left: var(--space-5);
   font-size: var(--fs-small);
   line-height: 1.4;
   color: var(--color-error);
 }
 
+.field__error:empty {
+  display: none;
+}
+
 .quote__submit {
-  gap: var(--space-4);
+  display: grid;
+  grid-column: 1 / -1;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .quote__consent {
-  text-transform: none;
-  letter-spacing: 0.02em;
-  font-size: var(--fs-small);
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  color: var(--color-muted);
 }
 
 .quote__done {
@@ -91,13 +112,14 @@
 .quote__thanks {
   font-family: var(--font-display);
   font-size: var(--fs-h2);
+  font-weight: 650;
   letter-spacing: var(--ls-display);
-  line-height: 1;
+  line-height: 1.1;
   color: var(--color-accent-text);
 }
 
-@media (max-width: 768px) {
-  .quote__card {
+@media (max-width: 480px) {
+  .quote-card {
     padding: var(--space-5);
   }
 
