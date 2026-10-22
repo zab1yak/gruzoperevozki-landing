@@ -11,8 +11,6 @@ const TARGETS = [
   '.faq__item',
   '.guarantee',
   '.rating',
-  '.contacts__list > div',
-  '.contacts__actions',
 ].join(',');
 
 const HERO_TARGETS = '.hero__main > *, .quote-card';

@@ -1,9 +1,18 @@
 import { company, contacts, cta, eyebrows, footer, nav } from '../content';
 import { button, sectionHead } from './ui';
 
-/** Обычная ссылка на поиск адреса в Яндекс Картах: без виджета, скриптов и iframe. */
-export function yandexMapsUrl(address: string): string {
-  return `https://yandex.ru/maps/?text=${encodeURIComponent(address)}`;
+/** Маршрут до адреса в Яндекс Картах: точку старта карты определят сами (открывается в новой вкладке). */
+export function yandexRouteUrl(address: string): string {
+  return `https://yandex.ru/maps/?rtext=~${encodeURIComponent(address)}&rtt=auto`;
+}
+
+/**
+ * Виджет Яндекс Карт без ключа и скриптов на нашей странице: iframe с меткой по координатам.
+ * Режим с меткой, а не поиск: у поиска на широком экране внизу висит пустая панель результатов.
+ */
+export function yandexMapWidgetUrl({ lat, lon }: { lat: number; lon: number }): string {
+  const point = `${lon},${lat}`;
+  return `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(point)}&z=16&pt=${encodeURIComponent(`${point},pm2ylm`)}`;
 }
 
 export function renderContacts(): string {
@@ -20,19 +29,10 @@ export function renderContacts(): string {
   return `
     <section class="section" id="contacts" aria-labelledby="contacts-title">
       <div class="container grid grid--12 contacts">
-        <div class="span contacts__info" style="--span: 5">
+        <div class="span contacts__head" style="--span: 12">
           ${sectionHead(eyebrows.contacts, contacts.title, 'contacts-title')}
-          <dl class="contacts__list">
-            <div>
-              <dt class="label">${contacts.labels.email}</dt>
-              <dd><a class="contacts__link" href="mailto:${company.email}">${company.email}</a></dd>
-            </div>
-          </dl>
-          <div class="contacts__actions">
-            ${button({ label: cta.quote, href: '#quote' })}
-          </div>
         </div>
-        <div class="span" style="--span: 7">
+        <div class="span contacts__info" style="--span: 5">
           <address class="card address">
             <div class="address__item">
               <p class="label">${contacts.labels.address}</p>
@@ -45,19 +45,33 @@ export function renderContacts(): string {
             </div>
             <div class="address__item">
               <p class="label">${contacts.labels.phone}</p>
-              <a class="address__phone stat-value" href="${company.phoneHref}">${company.phone}</a>
+              <a class="address__phone" href="${company.phoneHref}">${company.phone}</a>
+              <a class="contacts__link" href="mailto:${company.email}">${company.email}</a>
             </div>
-            <a
-              class="btn btn--ghost address__map"
-              href="${yandexMapsUrl(company.address)}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ${contacts.mapLink}
-              <span aria-hidden="true">↗</span>
-              <span class="visually-hidden">(${contacts.newTab})</span>
-            </a>
+            <div class="address__actions">
+              ${button({ label: cta.quote, href: '#quote' })}
+              <a
+                class="btn btn--ghost"
+                href="${yandexRouteUrl(company.address)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ${contacts.mapLink}
+                <span aria-hidden="true">↗</span>
+                <span class="visually-hidden">(${contacts.newTab})</span>
+              </a>
+            </div>
           </address>
+        </div>
+        <div class="span contacts__map" style="--span: 7">
+          <iframe
+            class="contacts__frame"
+            src="${yandexMapWidgetUrl(company.coords)}"
+            title="${contacts.mapTitle}"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
     </section>`;
