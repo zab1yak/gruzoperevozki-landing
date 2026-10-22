@@ -92,7 +92,7 @@
   font-family: var(--font-text);
   font-size: var(--fs-ui);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   line-height: 1;
   white-space: nowrap;
   transition:

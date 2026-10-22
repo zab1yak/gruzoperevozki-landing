@@ -13,7 +13,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 650;
   letter-spacing: var(--ls-display);
   line-height: var(--lh-display);
   text-wrap: balance;
@@ -60,7 +60,7 @@ p {
   color: var(--color-text);
 }
 
-/* Подпись капсом: 12-13px, letter-spacing 0.15em */
+/* Подпись капсом: 12-13px, небольшая разрядка */
 .label {
   font-size: var(--fs-label);
   letter-spacing: var(--ls-label);
