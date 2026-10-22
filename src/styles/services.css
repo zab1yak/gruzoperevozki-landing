@@ -26,8 +26,7 @@
   font-size: var(--fs-card);
 }
 
-.service .plate {
-  justify-self: start;
+.service .price {
   margin-top: var(--space-3);
 }
 

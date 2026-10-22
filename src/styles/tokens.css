@@ -61,33 +61,17 @@
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 64px;
-  --section-y: clamp(80px, 10vw, 160px);
+  --section-y: clamp(64px, 7vw, 112px);
   --gap: 16px;
   --gap-hero: 30px;
   --gutter: clamp(16px, 3vw, 40px);
   --container: 1440px;
   --container-max: 1600px;
 
-  /* Формы: пилюли и срезанные углы */
+  /* Формы: кнопки-пилюли, карточки и фото 16px, поля 12px */
   --radius-pill: 999px;
-  --cut: 24px;
-  --cut-sm: 14px;
-  --clip-cut: polygon(
-    0 0,
-    calc(100% - var(--cut)) 0,
-    100% var(--cut),
-    100% 100%,
-    var(--cut) 100%,
-    0 calc(100% - var(--cut))
-  );
-  --clip-cut-sm: polygon(
-    0 0,
-    calc(100% - var(--cut-sm)) 0,
-    100% var(--cut-sm),
-    100% 100%,
-    var(--cut-sm) 100%,
-    0 calc(100% - var(--cut-sm))
-  );
+  --radius-card: 16px;
+  --radius-ctl: 12px;
 
   /* Анимации */
   --dur-fast: 0.3s;

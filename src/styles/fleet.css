@@ -25,7 +25,12 @@
 }
 
 .fleet__photo {
-  clip-path: var(--clip-cut-sm);
+  border-radius: calc(var(--radius-card) - 4px);
+}
+
+/* Название в две строки не сдвигает характеристики соседних карточек */
+.fleet__card h3 {
+  min-height: 2.3em;
 }
 
 .fleet__specs {

@@ -1,5 +1,5 @@
 import { eyebrows, services } from '../content';
-import { card, photo, plate, sectionHead } from './ui';
+import { card, photo, sectionHead } from './ui';
 
 export function renderServices(): string {
   const cards = services.items
@@ -8,7 +8,7 @@ export function renderServices(): string {
         `<span class="label">${String(index + 1).padStart(2, '0')}</span>
            <h3>${item.title}</h3>
            <p class="service__text">${item.text}</p>
-           ${plate(item.price)}`,
+           <p class="price">${item.price}</p>`,
         { className: 'service' },
       ),
     )

@@ -28,9 +28,9 @@ export function renderHero(): string {
             ${button({ label: company.phone, href: company.phoneHref, variant: 'ghost' })}
             <p class="hero__hours">${company.hoursCompact}</p>
           </div>
-          <ul class="hero__facts" aria-label="Компания в цифрах">${facts}</ul>
         </div>
         ${renderQuoteCard()}
+        <ul class="hero__facts" aria-label="Компания в цифрах">${facts}</ul>
       </div>
     </section>`;
 }

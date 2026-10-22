@@ -12,7 +12,7 @@
   min-height: 460px;
   overflow: hidden;
   background: var(--color-surface);
-  clip-path: var(--clip-cut);
+  border-radius: var(--radius-card);
 }
 
 /* Карта на всю рамку сразу, иначе виджет рисует тайлы по первоначальной высоте */
@@ -45,6 +45,7 @@
 
 .hours__row .stat-value {
   font-size: clamp(1.375rem, 1vw + 1rem, 1.75rem);
+  font-weight: 650;
 }
 
 /* Карточка адреса рядом с картой */
@@ -120,6 +121,12 @@
 
 .footer__link:hover {
   color: var(--color-accent-text);
+}
+
+/* Телефон без табличных цифр: дефисы не разъезжаются */
+.footer__phone {
+  font-variant-numeric: normal;
+  font-weight: 650;
 }
 
 .footer__phone:hover {

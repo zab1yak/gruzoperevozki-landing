@@ -83,7 +83,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  min-height: 52px;
+  min-height: 48px;
   padding: 0 var(--space-6);
   border: 1px solid var(--btn-line);
   border-radius: var(--radius-pill);
@@ -122,7 +122,7 @@
 }
 
 .btn--sm {
-  min-height: 44px;
+  min-height: 48px;
   padding: 0 var(--space-5);
   font-size: var(--fs-ui);
 }
@@ -157,7 +157,6 @@
   color: var(--color-accent-text);
 }
 
-/* Срезанные углы: рамка рисуется подложкой, потому что clip-path обрезает border */
 /* На фоне карточки mist даёт 4.3:1, поэтому вторичный текст внутри неё silver (7.6:1) */
 .card,
 .plate {
@@ -165,20 +164,10 @@
   --shape-bg: var(--color-surface);
   --shape-line: var(--color-line);
   position: relative;
-  isolation: isolate;
-  background: var(--shape-line);
-  clip-path: var(--clip-cut);
-  transition: background-color var(--dur-fast) var(--ease);
-}
-
-.card::before,
-.plate::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  z-index: -1;
+  border: 1px solid var(--shape-line);
+  border-radius: var(--radius-card);
   background: var(--shape-bg);
-  clip-path: var(--clip-cut);
+  transition: border-color var(--dur-fast) var(--ease);
 }
 
 .card {
@@ -193,16 +182,17 @@
 }
 
 .plate {
-  --cut: var(--cut-sm);
-  clip-path: var(--clip-cut-sm);
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-5);
 }
 
-.plate::before {
-  clip-path: var(--clip-cut-sm);
+/* Цена: текст, а не плашка, чтобы не путать с кнопкой */
+.price {
+  font-size: var(--fs-lead);
+  font-weight: 650;
+  color: var(--color-heading);
 }
 
 .plate--accent {
@@ -213,13 +203,13 @@
   color: var(--color-on-accent);
 }
 
-/* Фото со срезанным углом, как у карточек */
+/* Фото со скруглением, как у карточек */
 .photo {
   position: relative;
   aspect-ratio: 3 / 2;
   overflow: hidden;
   background: var(--color-line);
-  clip-path: var(--clip-cut);
+  border-radius: var(--radius-card);
 }
 
 .photo__img {

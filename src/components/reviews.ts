@@ -1,5 +1,5 @@
-import { eyebrows, faq, reviews } from '../content';
-import { card, sectionHead } from './ui';
+import { company, eyebrows, faq, reviews } from '../content';
+import { button, card, sectionHead } from './ui';
 
 function stars(count: number): string {
   const on = '★'.repeat(count);
@@ -79,6 +79,10 @@ export function renderFaq(): string {
       <div class="container grid grid--12 faq">
         <div class="span" style="--span: 5">
           ${sectionHead(eyebrows.faq, faq.title, 'faq-title')}
+          <div class="faq__help">
+            <p>${faq.help}</p>
+            ${button({ label: company.phone, href: company.phoneHref, variant: 'ghost' })}
+          </div>
         </div>
         <ul class="span faq__list" style="--span: 7">${items}</ul>
       </div>

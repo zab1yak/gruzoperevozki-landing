@@ -49,10 +49,10 @@ export const hero = {
 };
 
 export const stats = [
-  { value: '2', label: 'года на рынке' },
+  { value: '4,9', label: 'средняя оценка' },
   { value: '1 400', label: 'выполненных заказов' },
   { value: '6', label: 'машин в парке' },
-  { value: '4,9', label: 'средняя оценка' },
+  { value: '2', label: 'года на рынке' },
 ];
 
 export const services = {
@@ -241,6 +241,7 @@ export const reviews = {
 
 export const faq = {
   title: 'Частые вопросы',
+  help: 'Не нашли ответ? Позвоните, подскажем по машине, грузчикам и цене.',
   items: [
     {
       q: 'Как считается цена?',

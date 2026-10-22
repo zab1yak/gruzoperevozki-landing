@@ -79,11 +79,6 @@
   color: var(--color-heading);
 }
 
-.avatar--2 {
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-}
-
 .review {
   gap: var(--space-5);
 }
@@ -109,8 +104,6 @@
 
 /* Плашка гарантии */
 .guarantee {
-  --cut: 24px;
-  clip-path: var(--clip-cut);
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   align-items: center;
@@ -118,10 +111,6 @@
   width: 100%;
   margin-top: var(--gap);
   padding: var(--space-7);
-}
-
-.guarantee::before {
-  clip-path: var(--clip-cut);
 }
 
 .guarantee__title {
@@ -136,6 +125,14 @@
 /* FAQ */
 .faq {
   align-items: start;
+}
+
+.faq__help {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  max-width: 34ch;
 }
 
 .faq__item {

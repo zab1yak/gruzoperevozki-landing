@@ -1,5 +1,5 @@
 import { eyebrows, fleet } from '../content';
-import { card, photo, plate, sectionHead } from './ui';
+import { card, photo, sectionHead } from './ui';
 
 export function renderFleet(): string {
   const cards = fleet.items
@@ -18,7 +18,7 @@ export function renderFleet(): string {
              </div>
            </dl>
            <p class="fleet__body">${item.body}</p>
-           <div class="fleet__price">${plate(item.price)}</div>`,
+           <p class="price">${item.price}</p>`,
         { className: 'fleet__card' },
       ),
     )
