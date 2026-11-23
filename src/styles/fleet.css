@@ -1,79 +1,74 @@
 .fleet__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+  display: flex;
   align-items: end;
-  gap: var(--gap-hero);
-  margin-bottom: var(--space-8);
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(28px, 4vw, 52px);
 }
-
-.fleet__head .section__head {
-  margin-bottom: 0;
+.fleet__head p {
+  max-width: 40ch;
+  color: var(--color-muted);
 }
-
-.fleet__note {
-  max-width: 44ch;
-  font-size: var(--fs-body);
-}
-
 .fleet__card {
-  padding: var(--space-4) var(--space-4) var(--space-6);
-  grid-template-rows: auto auto auto 1fr auto;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+  min-width: 0;
 }
-
-.fleet__card > :not(.photo) {
-  margin-inline: var(--space-3);
-}
-
 .fleet__photo {
-  border-radius: calc(var(--radius-card) - 4px);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2.5;
+  object-fit: cover;
 }
-
-/* Название в две строки не сдвигает характеристики соседних карточек */
-.fleet__card h3 {
-  min-height: 2.3em;
+.fleet__details {
+  display: grid;
+  gap: 20px;
+  padding: clamp(20px, 2.5vw, 36px);
 }
-
+.fleet__details h3 {
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+}
 .fleet__specs {
   display: grid;
-  /* «Грузоподъёмность» одним словом шире половины карточки: колонка по содержимому */
-  grid-template-columns: max-content minmax(0, 1fr);
-  gap: var(--gap);
-  padding-block: var(--space-4);
-  border-block: 1px solid var(--color-line);
 }
-
-.fleet__specs > div {
+.fleet__specs div {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 1rem;
 }
-
+.fleet__specs dt {
+  color: var(--mist);
+}
 .fleet__specs dd {
   margin: 0;
-  white-space: nowrap;
+  text-align: right;
 }
-
-.fleet__specs .stat-value {
-  font-size: clamp(1.75rem, 1vw + 1.1rem, 2.25rem);
+.fleet__rates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 28px;
 }
-
-.fleet__body {
+.fleet__rates strong {
+  color: var(--color-heading);
+  font-size: 1.5rem;
+  letter-spacing: -0.035em;
+}
+.fleet__details .btn {
+  justify-self: start;
+}
+.fleet__caption {
+  margin-top: 12px;
   color: var(--color-muted);
-  font-size: var(--fs-card);
+  font-size: 0.875rem;
 }
-
-/* На планшете две колонки, иначе каждая карточка с фото 3:2 занимает почти экран */
-@media (min-width: 600px) and (max-width: 768px) {
-  .fleet__grid {
-    --cols: 2;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .fleet__head {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4);
-    margin-bottom: var(--space-7);
+    align-items: start;
+    flex-direction: column;
   }
 }

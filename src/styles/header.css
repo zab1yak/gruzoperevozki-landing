@@ -33,21 +33,6 @@
   color: var(--color-accent-text);
 }
 
-.header__info {
-  display: none;
-  flex-direction: column;
-  gap: 2px;
-  flex: none;
-  font-size: var(--fs-label);
-  line-height: 1.4;
-  letter-spacing: 0.04em;
-  color: var(--color-muted);
-}
-
-.header__hours {
-  color: var(--color-text);
-}
-
 /* Меню: просто ссылки, без обводки */
 .nav {
   display: none;
@@ -200,8 +185,21 @@
   }
 }
 
-@media (min-width: 1600px) {
-  .header__info {
-    display: flex;
+.logo {
+  gap: 8px;
+}
+.logo__text {
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+@media (max-width: 500px) {
+  .header__inner {
+    gap: 10px;
+    min-height: 60px;
+  }
+  .mobile-menu {
+    top: 60px;
   }
 }

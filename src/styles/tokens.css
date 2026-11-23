@@ -1,20 +1,11 @@
 :root {
-  /*
-   * Палитра. Других цветов в проекте нет: в стилях только семантические токены ниже.
-   * Контраст по WCAG (текст / фон):
-   *   silver на charcoal 10.4, silver на asphalt 7.6, mist на charcoal 5.9,
-   *   lemon с charcoal 8.5, lemon на asphalt 6.2, charcoal на whisper 12.2, asphalt на whisper 8.9.
-   *   mist на asphalt 4.3: мало для текста (в карточках вторичный текст silver),
-   *   достаточно для рамок и иконок (3:1).
-   *   graphite на charcoal 2.0: только декоративные разделители, рамки контролов mist (5.9).
-   */
-  --charcoal: #2e2e2e;
-  --asphalt: #434343;
-  --graphite: #5a5a5a;
-  --mist: #aaaaaa;
-  --silver: #e1e1e1;
-  --whisper: #f4f2ee;
-  --lemon: #ffc342;
+  --charcoal: #202320;
+  --asphalt: #2b302e;
+  --graphite: #515753;
+  --mist: #bac1ba;
+  --silver: #e1e5df;
+  --whisper: #f5f4ed;
+  --lemon: #ffd054;
 
   /* Семантика для тёмных секций */
   --color-bg: var(--charcoal);
@@ -38,7 +29,7 @@
 
   /* Кегли */
   --fs-h1: clamp(2.25rem, 2.6vw + 1.2rem, 4rem); /* 36px mobile, 64px desktop */
-  --fs-h2: clamp(1.875rem, 2.2vw + 1rem, 3rem); /* 30-48px */
+  --fs-h2: clamp(2rem, 3vw + 1rem, 3.7rem); /* 30-48px */
   --fs-h3: clamp(1.375rem, 1.2vw + 0.95rem, 1.875rem); /* 22-30px */
   --fs-body: clamp(1rem, 0.25vw + 0.94rem, 1.125rem); /* 16px mobile, 18px desktop */
   --fs-card: clamp(1rem, 0.15vw + 0.95rem, 1.0625rem); /* текст карточек 16-17px */
@@ -65,13 +56,13 @@
   --gap: 16px;
   --gap-hero: 30px;
   --gutter: clamp(16px, 3vw, 40px);
-  --container: 1440px;
+  --container: 1344px;
   --container-max: 1600px;
 
   /* Формы: кнопки-пилюли, карточки и фото 16px, поля 12px */
   --radius-pill: 999px;
-  --radius-card: 16px;
-  --radius-ctl: 12px;
+  --radius-card: 14px;
+  --radius-ctl: 8px;
 
   /* Анимации */
   --dur-fast: 0.3s;

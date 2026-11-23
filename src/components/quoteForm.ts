@@ -1,166 +1,168 @@
-import { cta, quoteForm, services } from '../content';
-import { button } from './ui';
+import { company, fleet, services } from '../content';
 
-type FieldName = 'from' | 'to' | 'cargo' | 'date' | 'time' | 'phone';
-
-const { fields, errors, slots } = quoteForm;
-
-function todayIso(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+function field(name: string, title: string, control: string) {
+  return `<div class="field"><label class="field__label" for="quote-${name}">${title}</label>${control}
+    <p class="field__error" id="quote-${name}-error"></p></div>`;
 }
 
-function isWeekend(iso: string): boolean {
-  const [y, m, d] = iso.split('-').map(Number);
-  const day = new Date(y, m - 1, d).getDay();
-  return day === 0 || day === 6;
+function input(name: string, label: string, attrs: string) {
+  return field(
+    name,
+    label,
+    `<input class="input" id="quote-${name}" name="${name}" required aria-describedby="quote-${name}-error" ${attrs}>`,
+  );
 }
 
-function field(name: FieldName, label: string, control: string): string {
-  return `
-    <div class="field">
-      <label class="field__label" for="quote-${name}">${label}</label>
-      ${control}
-      <p class="field__error" id="quote-${name}-error"></p>
-    </div>`;
-}
+const permClock = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'Asia/Yekaterinburg',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
 
-function input(name: FieldName, attrs: string): string {
-  return `<input class="input" id="quote-${name}" name="${name}" ${attrs} aria-describedby="quote-${name}-error" />`;
-}
-
-function select(name: FieldName, placeholder: string, options: string[]): string {
-  const items = options.map((o) => `<option value="${o}">${o}</option>`).join('');
-  return `
-    <select class="input input--select" id="quote-${name}" name="${name}" required aria-describedby="quote-${name}-error">
-      <option value="" disabled selected>${placeholder}</option>${items}
-    </select>`;
-}
-
-/** Карточка заявки для первого экрана. Отправки на сервер пока нет: только проверка и сообщение. */
 export function renderQuoteCard(): string {
-  const cargo = services.items.map((item) => item.title);
-  return `
-    <div class="card quote-card" id="quote">
-      <h2 class="quote-card__title" id="quote-title">${quoteForm.title}</h2>
-      <p class="quote-card__lead">${quoteForm.lead}</p>
-      <form class="quote__form" novalidate aria-labelledby="quote-title" data-quote-form>
-        ${field('from', fields.from.label, input('from', `type="text" autocomplete="street-address" placeholder="${fields.from.placeholder}" required`))}
-        ${field('to', fields.to.label, input('to', `type="text" autocomplete="off" placeholder="${fields.to.placeholder}" required`))}
-        ${field('cargo', fields.cargo.label, select('cargo', fields.cargo.placeholder, cargo))}
-        ${field('phone', fields.phone.label, input('phone', `type="tel" inputmode="tel" autocomplete="tel" placeholder="${fields.phone.placeholder}" required`))}
-        ${field('date', fields.date.label, input('date', `type="date" min="${todayIso()}" required`))}
-        ${field('time', fields.time.label, select('time', fields.time.placeholder, slots))}
-        <div class="quote__submit">
-          ${button({ label: cta.send, type: 'submit', block: true })}
-          <p class="quote__consent">${quoteForm.consent}</p>
-        </div>
+  return `<section class="section" id="quote" aria-labelledby="quote-title"><div class="container quote-layout">
+    <div class="quote-intro"><h2 id="quote-title">Детали поездки</h2>
+      <p class="lead">Подготовьте маршрут для разговора с перевозчиком. Данные останутся в этом окне.</p>
+      <p>Для заказа позвоните Дмитрию или Павлу.</p>
+      ${company.contacts.map((c) => `<a class="quote-phone" href="${c.href}">${c.name} · ${c.phone}</a>`).join('')}</div>
+    <div class="card quote-card">
+      <form class="quote__form" data-quote-form novalidate aria-labelledby="quote-title">
+        ${input('name', 'Ваше имя', 'type="text" autocomplete="given-name" maxlength="80" placeholder="Имя"')}
+        ${input('phone', 'Телефон', 'type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="+7 (___) ___-__-__"')}
+        ${input('from', 'Адрес загрузки', 'type="text" maxlength="240" placeholder="Город, улица, дом"')}
+        ${input('to', 'Адрес доставки', 'type="text" maxlength="240" placeholder="Город, улица, дом"')}
+        ${input('date', 'Дата подачи', `type="date" min="${permClock.format(new Date()).slice(0, 10)}"`)}
+        ${input('time', 'Время в Перми', 'type="time"')}
+        ${field('vehicle', 'Машина', `<select class="input input--select" id="quote-vehicle" name="vehicle" aria-describedby="quote-vehicle-error"><option value="">Помогите выбрать</option>${fleet.items.map((t) => `<option value="${t.id}">${t.name}</option>`).join('')}</select>`)}
+        ${field('service', 'Услуга', `<select class="input input--select" id="quote-service" name="service"><option value="">Уточню по телефону</option>${services.items.map((s) => `<option>${s.title}</option>`).join('')}</select>`)}
+        <div class="field field--wide"><label class="field__label" for="quote-comment">О грузе <span>(по желанию)</span></label>
+          <textarea class="input" id="quote-comment" name="comment" rows="2" maxlength="1000" placeholder="Что везём, вес и особенности погрузки"></textarea></div>
+        <div class="quote__submit"><label class="loaders"><input type="checkbox" name="loaders"> Нужны грузчики</label><button type="submit" class="btn">Подготовить детали</button></div>
       </form>
-      <div class="quote__done" data-quote-done role="status" hidden>
-        <p class="quote__thanks" tabindex="-1">${quoteForm.success}</p>
-        ${button({ label: quoteForm.again, variant: 'ghost', className: 'js-quote-again' })}
+      <div class="quote__done" data-quote-done hidden>
+        <h3 tabindex="-1">Детали для звонка</h3><p>Заказ оформляется по телефону. Текст можно скопировать.</p>
+        <label class="visually-hidden" for="trip-text">Подготовленные детали поездки</label>
+        <textarea id="trip-text" class="input" readonly rows="8"></textarea>
+        <div class="quote__actions"><button class="btn" type="button" data-copy>Скопировать</button>
+          <button class="btn btn--ghost" type="button" data-edit>Изменить</button></div>
+        <p role="status" data-copy-status></p>
+        ${company.contacts.map((c) => `<a class="quote-phone" href="${c.href}">Позвонить · ${c.name}</a>`).join('')}
       </div>
-    </div>`;
-}
-
-function formatPhone(raw: string): string {
-  let digits = raw.replace(/\D/g, '');
-  if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1);
-  digits = digits.slice(0, 10);
-  if (!digits) return '';
-  const p = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 8), digits.slice(8, 10)];
-  let out = `+7 (${p[0]}`;
-  if (p[0].length === 3) out += ')';
-  if (p[1]) out += ` ${p[1]}`;
-  if (p[2]) out += `-${p[2]}`;
-  if (p[3]) out += `-${p[3]}`;
-  return out;
-}
-
-/** Окно 20:00–22:00 есть только в будни. */
-function lateSlotOnWeekend(form: HTMLFormElement): boolean {
-  const date = form.querySelector<HTMLInputElement>('#quote-date')?.value ?? '';
-  const time = form.querySelector<HTMLSelectElement>('#quote-time')?.value ?? '';
-  if (!date || !time) return false;
-  return isWeekend(date) && slots.indexOf(time) > slots.indexOf(quoteForm.weekendLastSlot);
-}
-
-function validate(name: FieldName, value: string, form: HTMLFormElement): string {
-  const v = value.trim();
-  switch (name) {
-    case 'from':
-    case 'to':
-      return v ? '' : errors.required;
-    case 'cargo':
-      return v ? '' : errors.select;
-    case 'date':
-      if (!v) return errors.required;
-      return v >= todayIso() ? '' : errors.date;
-    case 'time':
-      if (!v) return errors.select;
-      return lateSlotOnWeekend(form) ? errors.weekend : '';
-    case 'phone':
-      if (!v) return errors.required;
-      return v.replace(/\D/g, '').length === 11 ? '' : errors.phone;
-  }
+    </div></div></section>`;
 }
 
 export function initQuoteForm(): void {
-  const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
-  const done = document.querySelector<HTMLElement>('[data-quote-done]');
-  if (!form || !done) return;
+  const form = document.querySelector<HTMLFormElement>('[data-quote-form]')!;
+  const done = document.querySelector<HTMLElement>('[data-quote-done]')!;
+  const summary = done.querySelector<HTMLTextAreaElement>('#trip-text')!;
+  const copyStatus = done.querySelector<HTMLElement>('[data-copy-status]')!;
+  const required = Array.from(form.querySelectorAll<HTMLInputElement>('input[required]'));
+  const date = form.querySelector<HTMLInputElement>('[name=date]')!;
+  const time = form.querySelector<HTMLInputElement>('[name=time]')!;
+  const vehicle = form.querySelector<HTMLSelectElement>('[name=vehicle]')!;
 
-  const controls = Array.from(
-    form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('.input'),
-  );
-  const time = form.querySelector<HTMLSelectElement>('#quote-time');
-
-  const check = (control: HTMLInputElement | HTMLSelectElement): boolean => {
-    const message = validate(control.name as FieldName, control.value, form);
-    const error = form.querySelector<HTMLElement>(`#${control.id}-error`);
-    if (error) error.textContent = message;
-    control.setAttribute('aria-invalid', String(Boolean(message)));
-    return !message;
-  };
-
-  controls.forEach((control) => {
+  function validate(control: HTMLInputElement) {
+    const value = control.value.trim();
+    const now = permClock.format(new Date());
+    date.min = now.slice(0, 10);
+    if (!value) return 'Заполните поле.';
+    switch (control.name) {
+      case 'name':
+        return /\p{L}/u.test(value) ? '' : 'Укажите ваше имя.';
+      case 'phone':
+        return /^[+\d\s()-]+$/.test(value) &&
+          /^(?:\+7|8|7)\d{10}$/.test(value.replace(/[\s()-]/g, ''))
+          ? ''
+          : 'Введите номер с +7 или 8 и ещё 10 цифр.';
+      case 'from':
+      case 'to':
+        return value.length >= 3 && /\p{L}/u.test(value)
+          ? ''
+          : 'Уточните адрес, укажите город или улицу.';
+      case 'date':
+        return value < date.min ? 'Выберите сегодняшнюю или будущую дату.' : '';
+      case 'time':
+        return date.value === date.min && value < now.slice(-5)
+          ? 'Это время в Перми уже прошло.'
+          : '';
+      default:
+        return '';
+    }
+  }
+  function check(control: HTMLInputElement) {
+    const error = validate(control);
+    form.querySelector<HTMLElement>(`#${control.id}-error`)!.textContent = error;
+    control.setAttribute('aria-invalid', String(Boolean(error)));
+    return !error;
+  }
+  required.forEach((control) => {
     control.addEventListener('blur', () => {
-      if (control.value || control.getAttribute('aria-invalid') === 'true') check(control);
+      if (control.value) check(control);
     });
     control.addEventListener('input', () => {
-      if (control.name === 'phone') control.value = formatPhone(control.value);
       if (control.getAttribute('aria-invalid') === 'true') check(control);
     });
-    control.addEventListener('change', () => {
-      if (control instanceof HTMLSelectElement) check(control);
-      // Смена даты может сделать выбранное время недоступным (выходной)
-      if (control.name === 'date' && time?.value) check(time);
-    });
   });
-
+  date.addEventListener('change', () => {
+    if (time.value) check(time);
+  });
+  function edit() {
+    done.hidden = true;
+    form.hidden = false;
+    copyStatus.textContent = '';
+  }
+  document.addEventListener('click', (event) => {
+    const link =
+      event.target instanceof Element && event.target.closest<HTMLAnchorElement>('a[data-vehicle]');
+    if (link) {
+      edit();
+      vehicle.value = link.dataset.vehicle ?? '';
+    }
+  });
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const invalid = controls.filter((control) => !check(control));
+    const invalid = required.filter((control) => !check(control));
     if (invalid.length) {
       invalid[0].focus();
       return;
     }
-    // Отправки на сервер нет: только сообщение об успехе
+    const data = new FormData(form);
+    const read = (name: string) => String(data.get(name) ?? '').trim();
+    const vehicleName = vehicle.selectedOptions[0].text;
+    const dateRu = date.value.split('-').reverse().join('.');
+    summary.value = [
+      `Имя: ${read('name')}`,
+      `Телефон: ${read('phone')}`,
+      `Загрузка: ${read('from')}`,
+      `Доставка: ${read('to')}`,
+      `Подача: ${dateRu} в ${time.value} (Пермь)`,
+      `Машина: ${vehicleName}`,
+      `Грузчики: ${data.has('loaders') ? 'нужны' : 'не требуются'}`,
+      read('service') && `Услуга: ${read('service')}`,
+      read('comment') && `О грузе: ${read('comment')}`,
+    ]
+      .filter(Boolean)
+      .join('\n');
     form.hidden = true;
     done.hidden = false;
-    done.querySelector<HTMLElement>('.quote__thanks')?.focus();
+    done.querySelector('h3')!.focus();
   });
-
-  done.querySelector('.js-quote-again')?.addEventListener('click', () => {
-    form.reset();
-    controls.forEach((control) => {
-      control.setAttribute('aria-invalid', 'false');
-      const error = form.querySelector<HTMLElement>(`#${control.id}-error`);
-      if (error) error.textContent = '';
-    });
-    done.hidden = true;
-    form.hidden = false;
-    controls[0].focus();
+  done.querySelector('[data-edit]')!.addEventListener('click', () => {
+    edit();
+    required[0].focus();
+  });
+  done.querySelector('[data-copy]')!.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(summary.value);
+      copyStatus.textContent = 'Детали скопированы.';
+    } catch {
+      summary.focus();
+      summary.select();
+      copyStatus.textContent = 'Текст выделен. Выберите «Копировать» в меню устройства.';
+    }
   });
 }

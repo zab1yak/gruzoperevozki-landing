@@ -1,61 +1,5 @@
-import { company, eyebrows, faq, reviews } from '../content';
-import { button, card, sectionHead } from './ui';
-
-function stars(count: number): string {
-  const on = '★'.repeat(count);
-  const off = '☆'.repeat(5 - count);
-  return `<span class="stars" role="img" aria-label="Оценка ${count} из 5"><span class="stars__on">${on}</span><span class="stars__off">${off}</span></span>`;
-}
-
-function avatar(initials: string, extra = ''): string {
-  return `<span class="avatar ${extra}" aria-hidden="true">${initials}</span>`;
-}
-
-export function renderReviews(): string {
-  const cards = reviews.items
-    .map((item) =>
-      card(
-        `<header class="review__head">
-             ${avatar(item.initials)}
-             <div>
-               <p class="review__name">${item.name}</p>
-               <p class="label">${item.date}</p>
-             </div>
-             ${stars(item.stars)}
-           </header>
-           <p class="review__text">${item.text}</p>`,
-        { className: 'review' },
-      ),
-    )
-    .join('');
-
-  const avatars = reviews.items
-    .map((item, index) => avatar(item.initials, `avatar--stack avatar--${index % 4}`))
-    .join('');
-
-  return `
-    <section class="section" id="reviews" aria-labelledby="reviews-title">
-      <div class="container">
-        <div class="reviews__head">
-          ${sectionHead(eyebrows.reviews, reviews.title, 'reviews-title')}
-          <div class="rating">
-            <span class="stat-value rating__value">${reviews.rating.value}</span>
-            <div class="rating__meta">
-              ${stars(5)}
-              <div class="rating__avatars">${avatars}</div>
-              <p class="label">${reviews.rating.label}</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid grid--2 reviews__grid">${cards}</div>
-
-        <aside class="guarantee plate plate--accent" aria-label="${reviews.guarantee.title}">
-          <h3 class="guarantee__title">${reviews.guarantee.title}</h3>
-          <p class="guarantee__text">${reviews.guarantee.text}</p>
-        </aside>
-      </div>
-    </section>`;
-}
+import { company, faq } from '../content';
+import { button } from './ui';
 
 export function renderFaq(): string {
   const items = faq.items
@@ -78,10 +22,10 @@ export function renderFaq(): string {
     <section class="section section--light" id="faq" aria-labelledby="faq-title">
       <div class="container grid grid--12 faq">
         <div class="span" style="--span: 5">
-          ${sectionHead(eyebrows.faq, faq.title, 'faq-title')}
+          <h2 class="section__head" id="faq-title">${faq.title}</h2>
           <div class="faq__help">
             <p>${faq.help}</p>
-            ${button({ label: company.phone, href: company.phoneHref, variant: 'ghost' })}
+            ${button({ label: company.contacts[0].phone, href: company.contacts[0].href, variant: 'ghost' })}
           </div>
         </div>
         <ul class="span faq__list" style="--span: 7">${items}</ul>

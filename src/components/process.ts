@@ -1,5 +1,4 @@
-import { eyebrows, process } from '../content';
-import { sectionHead } from './ui';
+import { process } from '../content';
 
 export function renderProcess(): string {
   const steps = process.steps
@@ -15,7 +14,7 @@ export function renderProcess(): string {
   return `
     <section class="section section--light" id="process" aria-labelledby="process-title">
       <div class="container">
-        ${sectionHead(eyebrows.process, process.title, 'process-title')}
+        <h2 class="section__head" id="process-title">${process.title}</h2>
         <ol class="steps">${steps}</ol>
       </div>
     </section>`;

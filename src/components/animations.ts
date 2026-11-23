@@ -2,18 +2,11 @@
  * Появление блоков при скролле. Классы вешает JS, поэтому без скриптов
  * и при prefers-reduced-motion контент просто виден.
  */
-const TARGETS = [
-  '.section__head',
-  '.fleet__note',
-  '.card',
-  '.photo',
-  '.step',
-  '.faq__item',
-  '.guarantee',
-  '.rating',
-].join(',');
+const TARGETS = ['.section__head', '.fleet__note', '.card', '.photo', '.step', '.faq__item'].join(
+  ',',
+);
 
-const HERO_TARGETS = '.hero__main > *, .quote-card';
+const HERO_TARGETS = '.hero__main > *';
 const STAGGER = 0.08;
 const STAGGER_MAX = 5;
 
@@ -55,7 +48,7 @@ export function initAnimations(): void {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+    { threshold: 0.04, rootMargin: '0px 0px -6% 0px' },
   );
   blocks.forEach((el) => observer.observe(el));
 

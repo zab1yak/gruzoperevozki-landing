@@ -10,7 +10,7 @@ import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 import { scrollThrough, withPreview } from './preview.ts';
 
-const WIDTHS = [390, 768, 1440, 1920];
+const WIDTHS = [375, 390, 768, 1366, 1440, 1920];
 /** Первый экран на типичных ноутбуках: 1366×768 и 1920 при масштабе 125% (1536×730). */
 const LAPTOPS = [
   { width: 1366, height: 768 },
@@ -25,7 +25,7 @@ async function main(): Promise<void> {
     try {
       for (const width of WIDTHS) {
         const page = await browser.newPage({ viewport: { width, height: 900 } });
-        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.evaluate(() => document.fonts.ready);
         await scrollThrough(page);
         // Первый экран отдельно: на полностраничном снимке его не разглядеть
@@ -36,7 +36,7 @@ async function main(): Promise<void> {
       }
       for (const viewport of LAPTOPS) {
         const page = await browser.newPage({ viewport });
-        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.evaluate(() => document.fonts.ready);
         await page.waitForTimeout(800);
         const name = `fold-${viewport.width}x${viewport.height}.png`;

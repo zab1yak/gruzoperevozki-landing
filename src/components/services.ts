@@ -1,26 +1,11 @@
-import { eyebrows, services } from '../content';
-import { card, photo, sectionHead } from './ui';
+import { services } from '../content';
+import { card } from './ui';
 
 export function renderServices(): string {
   const cards = services.items
-    .map((item, index) =>
-      card(
-        `<span class="label">${String(index + 1).padStart(2, '0')}</span>
-           <h3>${item.title}</h3>
-           <p class="service__text">${item.text}</p>
-           <p class="price">${item.price}</p>`,
-        { className: 'service' },
-      ),
-    )
+    .map((item) => card(`<h3>${item.title}</h3><p>${item.text}</p>`, { className: 'service' }))
     .join('');
-  return `
-    <section class="section" id="services" aria-labelledby="services-title">
-      <div class="container grid grid--12 services">
-        <div class="span services__side" style="--span: 4">
-          ${sectionHead(eyebrows.services, services.title, 'services-title')}
-          ${photo(services.image, 'services__photo', '(max-width: 1024px) 100vw, 30vw')}
-        </div>
-        <div class="span grid grid--2 services__grid" style="--span: 8">${cards}</div>
-      </div>
-    </section>`;
+  return `<section class="section section--light" id="services" aria-labelledby="services-title">
+    <div class="container services"><h2 id="services-title">${services.title}</h2><div class="services__grid">${cards}</div></div>
+  </section>`;
 }

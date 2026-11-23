@@ -1,36 +1,29 @@
-import { eyebrows, fleet } from '../content';
-import { card, photo, sectionHead } from './ui';
+import { fleet, minHours, rubles } from '../content';
+import { card } from './ui';
 
 export function renderFleet(): string {
   const cards = fleet.items
-    .map((item) =>
+    .map((t) =>
       card(
-        `${photo(item.image, 'fleet__photo', '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw')}
-           <h3>${item.name}</h3>
-           <dl class="fleet__specs">
-             <div>
-               <dt class="label">${fleet.labels.capacity}</dt>
-               <dd class="stat-value">${item.capacityT}</dd>
-             </div>
-             <div>
-               <dt class="label">${fleet.labels.volume}</dt>
-               <dd class="stat-value">${item.volumeM3}</dd>
-             </div>
-           </dl>
-           <p class="fleet__body">${item.body}</p>
-           <p class="price">${item.price}</p>`,
+        `
+    <img class="fleet__photo" alt="Иллюстрация модели с тентованным кузовом" src="${import.meta.env.BASE_URL}${t.image}" loading="lazy" decoding="async" width="800" height="320">
+    <div class="fleet__details"><h3>${t.name}</h3>
+      <dl class="fleet__specs">
+        <div><dt>Кузов под тентом</dt><dd>${t.dimensions}</dd></div>
+        <div><dt>Грузоподъёмность</dt><dd>${t.capacity}</dd></div>
+        <div><dt>Загрузка</dt><dd>${t.loading}</dd></div>
+      </dl>
+      <div class="fleet__rates"><p><strong>${rubles(t.hourly)}</strong> / ч</p><p><strong>${rubles(t.perKm)}</strong> / км</p></div>
+      <a class="btn btn--ghost" href="#quote" data-vehicle="${t.id}">Заказать Газель ${t.id === 'short' ? '4' : '6,2'} м</a>
+    </div>`,
         { className: 'fleet__card' },
       ),
     )
     .join('');
-  return `
-    <section class="section" id="fleet" aria-labelledby="fleet-title">
-      <div class="container">
-        <div class="fleet__head">
-          ${sectionHead(eyebrows.fleet, fleet.title, 'fleet-title')}
-          <p class="lead fleet__note">${fleet.note}</p>
-        </div>
-        <div class="grid grid--4 fleet__grid">${cards}</div>
-      </div>
-    </section>`;
+  return `<section class="section" id="fleet" aria-labelledby="fleet-title"><div class="container">
+    <div class="fleet__head"><h2 id="fleet-title">${fleet.title}</h2>
+      <p>По городу — от ${minHours} часов. Для междугороднего рейса согласуем маршрут и итоговую стоимость.</p></div>
+    <div class="grid grid--2 fleet__grid">${cards}</div>
+    <p class="fleet__caption">На иллюстрациях показаны типы машин.</p>
+  </div></section>`;
 }

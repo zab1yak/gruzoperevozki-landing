@@ -360,7 +360,7 @@ async function main(): Promise<void> {
           reducedMotion: 'reduce',
         });
         const page = await context.newPage();
-        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.evaluate(() => document.fonts.ready);
         reports.push(await audit(page, width));
         await context.close();
@@ -374,6 +374,7 @@ async function main(): Promise<void> {
   await writeFile(resolve(OUT_DIR, 'a11y-report.md'), toMarkdown(reports));
   for (const rep of reports) {
     const fails = rep.rows.filter((r) => r.pass === false).length;
+    if (fails || rep.axe.length) process.exitCode = 1;
     console.log(
       `${rep.width}px: пар ${rep.rows.length}, не прошли ${fails}, мелкий текст ${rep.smallText.length}, axe ${rep.axe.length}`,
     );

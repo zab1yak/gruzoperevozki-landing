@@ -1,129 +1,122 @@
-/* Карточка заявки на первом экране */
+#quote {
+  background: #2b302e;
+}
+.quote-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(28px, 7vw, 100px);
+}
+.quote-intro {
+  display: grid;
+  gap: 14px;
+  max-width: 37ch;
+}
+.quote-intro .lead {
+  margin-block: 9px;
+}
+.quote-phone {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .quote-card {
-  gap: var(--space-4);
-  padding: var(--space-6);
+  background: var(--color-bg);
+  border: none;
 }
-
-.quote-card__title {
-  font-size: var(--fs-h3);
-}
-
-.quote-card__lead {
-  font-size: var(--fs-small);
-}
-
 .quote__form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4) var(--space-4);
-  margin-top: var(--space-2);
+  gap: 16px;
 }
-
 .field {
   display: grid;
   align-content: start;
-  gap: var(--space-2);
+  gap: 6px;
+  min-width: 0;
 }
-
 .field__label {
-  font-size: var(--fs-small);
-  font-weight: 500;
-  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 550;
 }
-
-/* Поля прямоугольные со скруглением, как в формах банков и служб доставки */
+.field__label span {
+  color: var(--color-muted);
+  font-weight: 400;
+}
 .input {
+  display: block;
   width: 100%;
-  min-height: 48px;
-  padding: 0 var(--space-4);
+  min-width: 0;
+  min-height: 46px;
+  padding: 8px 12px;
   border: 1px solid var(--color-control-line);
   border-radius: var(--radius-ctl);
   background: var(--color-bg);
   color: var(--color-heading);
   font-family: var(--font-text);
-  font-size: var(--fs-ui);
+  font-size: 1rem;
+  line-height: 1.4;
   color-scheme: dark;
-  transition: border-color var(--dur-fast) var(--ease);
 }
-
 .input--select {
   cursor: pointer;
 }
-
-/* Поле тёмное и внутри карточки, поэтому плейсхолдер mist (5.9:1), а не muted карточки */
 .input::placeholder {
   color: var(--color-placeholder);
   opacity: 1;
 }
-
-/* Невыбранный селект и пустая дата выглядят как плейсхолдер */
-.input--select:invalid,
-.input[type='date']:invalid {
-  color: var(--color-placeholder);
+textarea.input {
+  resize: vertical;
 }
-
-.input:hover {
-  border-color: var(--color-heading);
-}
-
-.input:focus-visible {
-  border-color: var(--color-accent);
-  outline-offset: 2px;
-}
-
 .input[aria-invalid='true'] {
   border-color: var(--color-error);
 }
-
 .field__error {
-  font-size: var(--fs-small);
-  line-height: 1.4;
+  font-size: 0.875rem;
   color: var(--color-error);
 }
-
-.field__error:empty {
-  display: none;
+.field__error:empty,
+[hidden] {
+  display: none !important;
 }
-
+.field--wide,
 .quote__submit {
-  display: grid;
-  grid-column: 1 / -1;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
+  grid-column: 1/-1;
 }
-
-.quote__consent {
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  color: var(--color-muted);
+.quote__submit .btn {
+  width: 100%;
 }
-
+.loaders {
+  display: flex;
+  align-items: center;
+  align-self: end;
+  min-height: 46px;
+  gap: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.loaders input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-accent);
+}
 .quote__done {
   display: grid;
-  justify-items: start;
-  gap: var(--space-6);
-  padding-block: var(--space-7);
+  gap: 14px;
 }
-
-.quote__done[hidden],
-.quote__form[hidden] {
-  display: none;
+.quote__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-
-.quote__thanks {
-  font-family: var(--font-display);
-  font-size: var(--fs-h2);
-  font-weight: 650;
-  letter-spacing: var(--ls-display);
-  line-height: 1.1;
-  color: var(--color-accent-text);
-}
-
-@media (max-width: 480px) {
-  .quote-card {
-    padding: var(--space-5);
+@media (max-width: 800px) {
+  .quote-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
-
+}
+@media (max-width: 520px) {
+  .quote-card {
+    padding: 20px;
+  }
   .quote__form {
     grid-template-columns: minmax(0, 1fr);
   }

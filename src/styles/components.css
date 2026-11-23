@@ -136,30 +136,7 @@
   pointer-events: none;
 }
 
-/* Тег-пилюля */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 var(--space-4);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
-  color: var(--color-muted);
-  font-size: var(--fs-label);
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.tag--accent {
-  border-color: var(--color-accent);
-  color: var(--color-accent-text);
-}
-
-/* На фоне карточки mist даёт 4.3:1, поэтому вторичный текст внутри неё silver (7.6:1) */
-.card,
-.plate {
+.card {
   --color-muted: var(--color-text);
   --shape-bg: var(--color-surface);
   --shape-line: var(--color-line);
@@ -177,43 +154,11 @@
   padding: var(--space-6);
 }
 
-.card--link:hover {
-  --shape-line: var(--color-accent);
+[id] {
+  scroll-margin-top: 88px;
 }
-
-.plate {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-5);
-}
-
-/* Цена: текст, а не плашка, чтобы не путать с кнопкой */
-.price {
-  font-size: var(--fs-lead);
-  font-weight: 650;
-  color: var(--color-heading);
-}
-
-.plate--accent {
-  --shape-bg: var(--color-accent);
-  --shape-line: var(--color-accent);
-  --color-heading: var(--color-on-accent);
-  --color-text: var(--color-on-accent);
-  color: var(--color-on-accent);
-}
-
-/* Фото со скруглением, как у карточек */
-.photo {
-  position: relative;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  background: var(--color-line);
-  border-radius: var(--radius-card);
-}
-
-.photo__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@media (max-width: 500px) {
+  [id] {
+    scroll-margin-top: 72px;
+  }
 }

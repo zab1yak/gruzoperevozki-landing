@@ -6,16 +6,23 @@
   margin-bottom: var(--space-5);
 }
 
-/* Карта в рамке со срезанным углом, как у карточек */
+.contacts__map-wrap {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
 .contacts__map {
   position: relative;
-  min-height: 460px;
+  display: grid;
+  place-items: center;
+  flex: 1;
+  min-height: 320px;
   overflow: hidden;
+  border: 1px solid var(--color-line);
   background: var(--color-surface);
   border-radius: var(--radius-card);
+  padding: 16px;
 }
-
-/* Карта на всю рамку сразу, иначе виджет рисует тайлы по первоначальной высоте */
 .contacts__frame {
   position: absolute;
   inset: 0;
@@ -23,32 +30,17 @@
   height: 100%;
   border: 0;
 }
-
-.contacts__link:hover {
-  color: var(--color-accent-text);
+.map-status {
+  padding: 12px;
+  font-size: 0.94rem;
 }
-
-.contacts__link {
-  transition: color var(--dur-fast) var(--ease);
+.contacts__head {
+  margin-bottom: 24px;
 }
-
-.hours {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5) var(--space-7);
+.footer {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
 }
-
-.hours__row {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.hours__row .stat-value {
-  font-size: clamp(1.375rem, 1vw + 1rem, 1.75rem);
-  font-weight: 650;
-}
-
-/* Карточка адреса рядом с картой */
 .address {
   height: 100%;
   gap: var(--space-5);
@@ -63,19 +55,6 @@
   border-bottom: 1px solid var(--color-line);
 }
 
-.address__street {
-  font-family: var(--font-display);
-  font-size: var(--fs-h3);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: var(--color-heading);
-}
-
-.address__note {
-  font-size: var(--fs-card);
-}
-
 .address__phone {
   justify-self: start;
   font-size: clamp(1.375rem, 1vw + 1rem, 1.75rem);
@@ -86,12 +65,6 @@
 
 .address__phone:hover {
   color: var(--color-accent-text);
-}
-
-.address__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
 }
 
 /* Подвал */
@@ -123,39 +96,19 @@
   color: var(--color-accent-text);
 }
 
-/* Телефон без табличных цифр: дефисы не разъезжаются */
-.footer__phone {
-  font-variant-numeric: normal;
-  font-weight: 650;
-}
-
-.footer__phone:hover {
-  color: var(--color-accent-text);
-}
-
-.footer__bottom {
-  margin-top: var(--space-8);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--color-line);
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
-
 @media (max-width: 768px) {
-  .address {
-    padding: var(--space-5);
-  }
-
-  .address__actions .btn {
-    flex: 1 1 100%;
-  }
-
-  .contacts__map {
-    min-height: 360px;
-  }
-
   .footer__top {
-    align-items: flex-start;
+    align-items: start;
     flex-direction: column;
   }
+  .address {
+    padding: 22px;
+  }
+}
+.map-status {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--color-surface);
+  border-radius: var(--radius-ctl);
 }
