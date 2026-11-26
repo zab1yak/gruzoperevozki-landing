@@ -1,4 +1,4 @@
-import { company, cta, nav } from '../content';
+import { company, cta, dailySchedule, nav } from '../content';
 import { brand, button } from './ui';
 
 export function renderHeader(): string {
@@ -36,7 +36,7 @@ export function renderHeader(): string {
         </nav>
         <div class="mobile-menu__foot">
           <a class="mobile-menu__phone" href="${company.contacts[0].href}">${company.contacts[0].phone}</a>
-          <p class="label">Пермь · Круглосуточно</p>
+          <p class="label">Пермь · ${dailySchedule}</p>
           ${button({ label: cta.quote, href: '#quote', block: true })}
         </div>
       </div>

@@ -2,6 +2,7 @@ import { company, faq } from '../content';
 import { button } from './ui';
 
 export function renderFaq(): string {
+  const contact = company.contacts[0];
   const items = faq.items
     .map(
       (item, index) => `
@@ -25,7 +26,7 @@ export function renderFaq(): string {
           <h2 class="section__head" id="faq-title">${faq.title}</h2>
           <div class="faq__help">
             <p>${faq.help}</p>
-            ${button({ label: company.contacts[0].phone, href: company.contacts[0].href, variant: 'ghost' })}
+            ${button({ label: `${contact.phone} · ${contact.name}`, href: contact.href, variant: 'ghost' })}
           </div>
         </div>
         <ul class="span faq__list" style="--span: 7">${items}</ul>

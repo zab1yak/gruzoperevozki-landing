@@ -14,16 +14,28 @@ async function checkQuote(page: Page) {
     from: 'Пермь, ул. Ленина, 1',
     to: 'Пермь, ул. Мира, 2',
     date: '2000-01-01',
-    time: '00:30',
+    time: '07:59',
     comment: 'Два шкафа и холодильник',
   }))
     await form.locator(`[name=${name}]`).fill(value);
   await submit.click();
-  assert.equal(await form.locator('[aria-invalid=true]').count(), 2);
+  assert.equal(await form.locator('[aria-invalid=true]').count(), 3);
   await form.locator('[name=date]').fill('2099-01-02');
   await form.locator('[name=phone]').fill('+7 (999) 000-11-22');
   await form.locator('[name=loaders]').check();
   await form.locator('[name=service]').selectOption({ label: 'Мебель и техника' });
+  const time = form.locator('[name=time]');
+  for (const outside of ['07:59', '23:01']) {
+    await time.fill(outside);
+    await submit.click();
+    assert.equal(await time.getAttribute('aria-invalid'), 'true');
+    assert.match(await form.locator('#quote-time-error').innerText(), /08:00 до 23:00/);
+  }
+  await time.fill('08:00');
+  await submit.click();
+  assert(await page.locator('[data-quote-done]').isVisible());
+  await page.getByRole('button', { name: 'Изменить' }).click();
+  await time.fill('23:00');
   let submissions = 0;
   page.on('request', (request) => {
     if (request.method() === 'POST') submissions++;
@@ -34,7 +46,7 @@ async function checkQuote(page: Page) {
   const summary = await page.locator('#trip-text').inputValue();
   for (const part of [
     'Анна',
-    '00:30',
+    '23:00',
     '02.01.2099',
     'Газель 6,2 м',
     'Грузчики: нужны',
@@ -105,6 +117,16 @@ await withPreview(async (url) => {
       await page.goto(url);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('h1').count(), 1);
+      assert.equal(await page.locator('.hero__hours').innerText(), 'Ежедневно с 08:00 до 23:00');
+      assert.equal(
+        await page.locator('.hero__contact a').innerText(),
+        'Уточнить стоимость по телефону',
+      );
+      assert.equal(
+        await page.locator('.faq__help p').innerText(),
+        'Для нестандартного груза обсудите размеры и способ погрузки.',
+      );
+      assert.equal(await page.locator('.faq__help a').innerText(), '+7 (963) 876-54-44 · Дмитрий');
       assert(!(await page.locator('body').innerText()).includes('Груз59'));
       const ids = await page
         .locator('a[href^="#"]')

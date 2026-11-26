@@ -1,4 +1,4 @@
-import { company, nav } from '../content';
+import { company, dailySchedule, nav } from '../content';
 import { brand } from './ui';
 
 // Центр города, без метки склада или офиса.
@@ -10,7 +10,7 @@ export function renderContacts(): string {
     <div class="container grid grid--12 contacts">
       <div class="span contacts__head" style="--span:12"><h2 id="contacts-title">Связаться с нами</h2></div>
       <div class="span contacts__info" style="--span:5"><address class="card address">
-        <p>Принимаем звонки круглосуточно</p>
+        <p>${dailySchedule} по пермскому времени</p>
         ${company.contacts.map((c) => `<div class="address__item"><span>${c.name}</span><a class="address__phone" href="${c.href}">${c.phone}</a></div>`).join('')}
         <p>Пермь, Пермский край и междугородние рейсы по России. Машину подаём по согласованному адресу.</p>
       </address></div>

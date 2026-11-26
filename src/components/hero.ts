@@ -1,4 +1,4 @@
-import { company, hero } from '../content';
+import { company, dailySchedule, hero } from '../content';
 import { renderCalculator } from './calculator';
 
 export function renderHero(): string {
@@ -8,12 +8,12 @@ export function renderHero(): string {
       <div class="container">
         <div class="hero__intro">
           <div class="hero__main">
-            <p class="hero__hours">Круглосуточно · 7 дней в неделю</p>
+            <p class="hero__hours">${dailySchedule}</p>
             <h1 id="hero-title">${hero.title} <span>${hero.location}</span></h1>
           </div>
           <div class="hero__contact">
             <p class="lead">${hero.subtitle}</p>
-            <a href="${primary.href}">Позвонить Дмитрию</a>
+            <a href="${primary.href}">Уточнить стоимость по телефону</a>
           </div>
         </div>
         <div class="hero__grid">

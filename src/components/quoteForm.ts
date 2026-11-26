@@ -1,4 +1,4 @@
-import { company, fleet, services } from '../content';
+import { company, fleet, services, workingHours } from '../content';
 
 function field(name: string, title: string, control: string) {
   return `<div class="field"><label class="field__label" for="quote-${name}">${title}</label>${control}
@@ -27,7 +27,7 @@ export function renderQuoteCard(): string {
   return `<section class="section" id="quote" aria-labelledby="quote-title"><div class="container quote-layout">
     <div class="quote-intro"><h2 id="quote-title">Детали поездки</h2>
       <p class="lead">Подготовьте маршрут для разговора с перевозчиком. Данные останутся в этом окне.</p>
-      <p>Для заказа позвоните Дмитрию или Павлу.</p>
+      <p>Заказать машину можно по телефону.</p>
       ${company.contacts.map((c) => `<a class="quote-phone" href="${c.href}">${c.name} · ${c.phone}</a>`).join('')}</div>
     <div class="card quote-card">
       <form class="quote__form" data-quote-form novalidate aria-labelledby="quote-title">
@@ -36,7 +36,7 @@ export function renderQuoteCard(): string {
         ${input('from', 'Адрес загрузки', 'type="text" maxlength="240" placeholder="Город, улица, дом"')}
         ${input('to', 'Адрес доставки', 'type="text" maxlength="240" placeholder="Город, улица, дом"')}
         ${input('date', 'Дата подачи', `type="date" min="${permClock.format(new Date()).slice(0, 10)}"`)}
-        ${input('time', 'Время в Перми', 'type="time"')}
+        ${input('time', `Время в Перми (${workingHours.open}–${workingHours.close})`, `type="time" min="${workingHours.open}" max="${workingHours.close}"`)}
         ${field('vehicle', 'Машина', `<select class="input input--select" id="quote-vehicle" name="vehicle" aria-describedby="quote-vehicle-error"><option value="">Помогите выбрать</option>${fleet.items.map((t) => `<option value="${t.id}">${t.name}</option>`).join('')}</select>`)}
         ${field('service', 'Услуга', `<select class="input input--select" id="quote-service" name="service"><option value="">Уточню по телефону</option>${services.items.map((s) => `<option>${s.title}</option>`).join('')}</select>`)}
         <div class="field field--wide"><label class="field__label" for="quote-comment">О грузе <span>(по желанию)</span></label>
@@ -50,7 +50,7 @@ export function renderQuoteCard(): string {
         <div class="quote__actions"><button class="btn" type="button" data-copy>Скопировать</button>
           <button class="btn btn--ghost" type="button" data-edit>Изменить</button></div>
         <p role="status" data-copy-status></p>
-        ${company.contacts.map((c) => `<a class="quote-phone" href="${c.href}">Позвонить · ${c.name}</a>`).join('')}
+        ${company.contacts.map((c) => `<a class="quote-phone" href="${c.href}">${c.name} · ${c.phone}</a>`).join('')}
       </div>
     </div></div></section>`;
 }
@@ -86,6 +86,9 @@ export function initQuoteForm(): void {
       case 'date':
         return value < date.min ? 'Выберите сегодняшнюю или будущую дату.' : '';
       case 'time':
+        if (value < workingHours.open || value > workingHours.close) {
+          return `Выберите время подачи с ${workingHours.open} до ${workingHours.close} по Перми.`;
+        }
         return date.value === date.min && value < now.slice(-5)
           ? 'Это время в Перми уже прошло.'
           : '';

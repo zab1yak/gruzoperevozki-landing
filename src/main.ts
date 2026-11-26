@@ -10,7 +10,7 @@ import { renderQuoteCard, initQuoteForm } from './components/quoteForm';
 import { renderFaq, initFaq } from './components/reviews';
 import { renderContacts, renderFooter, initMap } from './components/contacts';
 import { initAnimations } from './components/animations';
-import { a11y, company, hero } from './content';
+import { a11y, company, hero, workingHours } from './content';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (app) {
@@ -34,6 +34,6 @@ jsonLd.textContent = JSON.stringify({
   description: hero.subtitle,
   areaServed: company.area,
   telephone: company.contacts.map((c) => c.href.slice(4)),
-  openingHours: 'Mo-Su 00:00-23:59',
+  openingHours: `Mo-Su ${workingHours.open}-${workingHours.close}`,
 });
 document.head.appendChild(jsonLd);
